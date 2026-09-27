@@ -1,0 +1,306 @@
+{
+  "franchise": "Call of Duty Zombies (round-based lineage)",
+  "data_as_of": "2026-09-28",
+  "sources": [
+    "https://zwr.gg/rules/",
+    "https://zwr.gg/leaderboards/waw",
+    "https://zwr.gg/leaderboards/bo",
+    "https://zwr.gg/leaderboards/bocw/",
+    "https://zwr.gg/leaderboards/bo6/",
+    "https://callofduty.fandom.com/",
+    "https://game8.co/games/Call-of-Duty-Black-Ops-7/archives/565019",
+    "https://insider-gaming.com/black-ops-7-what-is-cursed-mode-zombies/",
+    "https://www.thegamer.com/call-of-duty-cod-black-ops-6-zombies-directed-mode-changes/",
+    "https://blog.playstation.com/2020/10/23/a-closer-look-at-call-of-duty-black-ops-cold-war-zombies-onslaught-mode/"
+  ],
+  "notes_unverified": [
+    "zwr.gg category lists were captured from a search-engine summary of the leaderboard index pages, not a full manual crawl of each per-map category page; some niche/older categories (e.g. per-map area-only challenges) are likely incomplete.",
+    "Exact BO7 map-by-map easter egg boolean and exact settings (gobblegum toggle names, difficulty options) not individually re-verified per map this session — flagged per-entry below where uncertain.",
+    "BO3 console vs PC map-count distinction (14 official maps on console including Chronicles) not cross-checked against a primary Treyarch source."
+  ],
+  "games": [
+    {
+      "slug": "waw",
+      "game": "Call of Duty: World at War",
+      "release_year": 2008,
+      "developer": "Treyarch",
+      "modes": ["Round-based co-op (2-4 players)"],
+      "player_counts": [1, 2, 3, 4],
+      "settings_affecting_records": ["No jugg (No Juggernog) challenge category", "First Room challenge", "No Power challenge"],
+      "gobblegums": false,
+      "augments": false,
+      "maps": [
+        {"slug": "nacht-der-untoten", "name": "Nacht der Untoten", "release": "2008 (base game)", "type": "round-based", "has_main_easter_egg": false, "verified": true},
+        {"slug": "verruckt", "name": "Verrückt", "release": "2008 (Map Pack 1 DLC)", "type": "round-based", "has_main_easter_egg": false, "note": "Introduced perk machines", "verified": true},
+        {"slug": "shi-no-numa", "name": "Shi No Numa", "release": "2008 (Map Pack 2 DLC)", "type": "round-based", "has_main_easter_egg": true, "note": "Introduced wonder weapons; first 'main quest' easter egg elements", "verified": true},
+        {"slug": "der-riese", "name": "Der Riese", "release": "2009 (Map Pack 3 DLC)", "type": "round-based", "has_main_easter_egg": true, "note": "Introduced Pack-a-Punch", "verified": true}
+      ],
+      "record_categories": {
+        "high_rounds": {"ranking": "higher round number is better", "note": "Overall high round, and 'Flawless' (no player ever downed) sub-category"},
+        "speedruns": ["30 Speedrun", "50 Speedrun", "70 Speedrun", "100 Speedrun", "EE Speedrun"],
+        "speedrun_ranking": "lower elapsed time is better (time-to-round or time-to-EE-completion)",
+        "challenges": ["First Room", "No Power", "No Perks", "No Jug"],
+        "misc": ["Campaign Speedrun (non-Zombies category also tracked by zwr.gg)"],
+        "verified": true
+      }
+    },
+    {
+      "slug": "bo1",
+      "game": "Call of Duty: Black Ops",
+      "release_year": 2010,
+      "developer": "Treyarch",
+      "modes": ["Round-based co-op (2-4 players)", "Dead Ops Arcade (twin-stick arcade shooter, separate scoring system)"],
+      "player_counts": [1, 2, 3, 4],
+      "settings_affecting_records": ["No Mans Land challenge", "First Room", "No Power", "No Perks", "No Jug"],
+      "gobblegums": false,
+      "augments": false,
+      "maps": [
+        {"slug": "kino-der-toten", "name": "Kino der Toten", "release": "2010 (base game)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "five", "name": "Five", "release": "2010 (base game)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "ascension", "name": "Ascension", "release": "2011 (DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "call-of-the-dead", "name": "Call of the Dead", "release": "2011 (DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "shangri-la", "name": "Shangri-La", "release": "2011 (DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "moon", "name": "Moon", "release": "2011 (DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "dead-ops-arcade", "name": "Dead Ops Arcade", "release": "2010 (base game, secret unlock)", "type": "arcade", "has_main_easter_egg": false, "verified": true}
+      ],
+      "record_categories": {
+        "high_rounds": {"ranking": "higher round is better"},
+        "speedruns": ["30 Speedrun", "50 Speedrun", "70 Speedrun", "100 Speedrun", "200 Speedrun", "EE Speedrun", "Super EE Speedrun"],
+        "speedrun_ranking": "lower elapsed time is better",
+        "challenges": ["No Mans Land", "First Room", "No Power", "No Perks", "No Jug"],
+        "dead_ops_arcade": "high score based (higher score better), separate leaderboard from round-based maps",
+        "verified": true
+      }
+    },
+    {
+      "slug": "bo2",
+      "game": "Call of Duty: Black Ops II",
+      "release_year": 2012,
+      "developer": "Treyarch",
+      "modes": ["Round-based co-op (2-4 players)", "Grief (4v4 competitive)", "Turned (multiplayer-map infection-style mode)"],
+      "player_counts": [1, 2, 3, 4, 8],
+      "settings_affecting_records": ["Tranzit uses a bus/fog-navigated overworld connecting Town/Farm/Bus Depot sub-areas"],
+      "gobblegums": false,
+      "augments": false,
+      "maps": [
+        {"slug": "nuketown-zombies", "name": "Nuketown Zombies", "release": "2012 (pre-order bonus)", "type": "round-based (survival, single small map)", "has_main_easter_egg": false, "verified": true},
+        {"slug": "tranzit", "name": "TranZit", "release": "2012 (base game)", "type": "round-based (open-world/bus-linked)", "has_main_easter_egg": true, "note": "Links Town, Farm, Bus Depot sub-maps", "verified": true},
+        {"slug": "die-rise", "name": "Die Rise", "release": "2013 (DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "mob-of-the-dead", "name": "Mob of the Dead", "release": "2013 (DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "buried", "name": "Buried", "release": "2013 (DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "origins", "name": "Origins", "release": "2013 (DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true}
+      ],
+      "record_categories": {
+        "high_rounds": {"ranking": "higher round is better"},
+        "speedruns": ["30 Speedrun", "50 Speedrun", "70 Speedrun", "100 Speedrun", "EE Speedrun"],
+        "speedrun_ranking": "lower elapsed time is better",
+        "challenges": ["First Room", "No Power", "No Perks", "No Jug"],
+        "verified": false
+      }
+    },
+    {
+      "slug": "bo3",
+      "game": "Call of Duty: Black Ops III",
+      "release_year": 2015,
+      "developer": "Treyarch",
+      "modes": ["Round-based co-op (2-4 players)", "Nightmares mode (campaign co-op zombies variant)"],
+      "player_counts": [1, 2, 3, 4],
+      "settings_affecting_records": ["Gobblegum system introduced (can be banned/disabled for 'purist' style runs by community convention, not an in-game toggle)"],
+      "gobblegums": true,
+      "augments": false,
+      "maps": [
+        {"slug": "shadows-of-evil", "name": "Shadows of Evil", "release": "2015 (base game)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "the-giant", "name": "The Giant", "release": "2015 (DLC, remake of Der Riese)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "der-eisendrache", "name": "Der Eisendrache", "release": "2016 (Awakening DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "zetsubou-no-shima", "name": "Zetsubou No Shima", "release": "2016 (Eclipse DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "gorod-krovi", "name": "Gorod Krovi", "release": "2016 (Descent DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "revelations", "name": "Revelations", "release": "2017 (Salvation DLC)", "type": "round-based", "has_main_easter_egg": true, "verified": true}
+      ],
+      "zombies_chronicles_dlc": {
+        "release": "2017",
+        "description": "8 remastered classic maps on the BO3 engine, sold as separate DLC",
+        "maps": [
+          {"slug": "zc-nacht-der-untoten", "name": "Nacht der Untoten (Chronicles)", "origin_game": "waw", "has_main_easter_egg": false, "verified": true},
+          {"slug": "zc-verruckt", "name": "Verrückt (Chronicles)", "origin_game": "waw", "has_main_easter_egg": false, "verified": true},
+          {"slug": "zc-shi-no-numa", "name": "Shi No Numa (Chronicles)", "origin_game": "waw", "has_main_easter_egg": true, "verified": true},
+          {"slug": "zc-kino-der-toten", "name": "Kino der Toten (Chronicles)", "origin_game": "bo1", "has_main_easter_egg": true, "verified": true},
+          {"slug": "zc-ascension", "name": "Ascension (Chronicles)", "origin_game": "bo1", "has_main_easter_egg": true, "verified": true},
+          {"slug": "zc-shangri-la", "name": "Shangri-La (Chronicles)", "origin_game": "bo1", "has_main_easter_egg": true, "verified": true},
+          {"slug": "zc-moon", "name": "Moon (Chronicles)", "origin_game": "bo1", "has_main_easter_egg": true, "verified": true},
+          {"slug": "zc-origins", "name": "Origins (Chronicles)", "origin_game": "bo2", "has_main_easter_egg": true, "verified": true}
+        ]
+      },
+      "record_categories": {
+        "high_rounds": {"ranking": "higher round is better", "note": "BO3's point-scaling system (points needed per round) is a commonly referenced 'classic' formula reused as a modifier in later games' challenge modes (e.g. BO7 Cursed mode)"},
+        "speedruns": ["30 Speedrun", "50 Speedrun", "70 Speedrun", "100 Speedrun", "EE Speedrun"],
+        "speedrun_ranking": "lower elapsed time is better",
+        "challenges": ["First Room", "No Power", "No Perks", "No Jug"],
+        "verified": false
+      }
+    },
+    {
+      "slug": "bo4",
+      "game": "Call of Duty: Black Ops 4",
+      "release_year": 2018,
+      "developer": "Treyarch",
+      "modes": ["Round-based co-op (2-4 players)", "Rush (score attack variant)"],
+      "player_counts": [1, 2, 3, 4],
+      "settings_affecting_records": ["Elixirs (BO4's equivalent of Gobblegums) can be equipped or run 'clean'"],
+      "gobblegums": true,
+      "gobblegum_name_variant": "Elixirs / Perkaholic",
+      "augments": false,
+      "maps": [
+        {"slug": "ix", "name": "IX", "release": "2018 (base game)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "voyage-of-despair", "name": "Voyage of Despair", "release": "2018 (base game)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "blood-of-the-dead", "name": "Blood of the Dead", "release": "2018 (Black Ops Pass DLC 1, remake of Mob of the Dead)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "classified", "name": "Classified", "release": "2018 (remake of Five)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "dead-of-the-night", "name": "Dead of the Night", "release": "2018 (Black Ops Pass DLC 1)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "ancient-evil", "name": "Ancient Evil", "release": "2019 (Black Ops Pass DLC 2)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "alpha-omega", "name": "Alpha Omega", "release": "2019 (Black Ops Pass DLC 2)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "tag-der-toten", "name": "Tag der Toten", "release": "2019 (Black Ops Pass DLC 3)", "type": "round-based", "has_main_easter_egg": true, "note": "Final BO4 map, concludes the Aether storyline", "verified": true}
+      ],
+      "record_categories": {
+        "high_rounds": {"ranking": "higher round is better"},
+        "speedruns": ["30 Speedrun", "50 Speedrun", "70 Speedrun", "100 Speedrun", "EE Speedrun"],
+        "speedrun_ranking": "lower elapsed time is better",
+        "challenges": ["First Room", "No Power", "No Perks", "No Jug"],
+        "verified": false
+      }
+    },
+    {
+      "slug": "bocw",
+      "game": "Call of Duty: Black Ops Cold War",
+      "release_year": 2020,
+      "developer": "Treyarch",
+      "modes": ["Round-based co-op (1-4 players)", "Outbreak (large open-region objective mode)", "Onslaught (2-player co-op on remixed multiplayer maps, PS4/PS5 timed exclusive Oct 2020-Nov 2021)"],
+      "player_counts": [1, 2, 3, 4],
+      "settings_affecting_records": ["Gobblegums return", "'Purist' high-round variant (no perks/no pack-a-punch tier restrictions per zwr.gg 'Purist Highrounds' category)"],
+      "gobblegums": true,
+      "augments": false,
+      "maps": [
+        {"slug": "die-maschine", "name": "Die Maschine", "release": "2020 (base game)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "firebase-z", "name": "Firebase Z", "release": "2021 (Season 1)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "mauer-der-toten", "name": "Mauer der Toten", "release": "2021-07-15 (Season 4 Reloaded)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "forsaken", "name": "Forsaken", "release": "2021 (final DLC)", "type": "round-based", "has_main_easter_egg": true, "note": "Concludes Cold War round-based story arc", "verified": true},
+        {"slug": "outbreak", "name": "Outbreak", "release": "2021 (Season 1)", "type": "outbreak (open-region, objective-based)", "has_main_easter_egg": false, "note": "Not a single fixed map; multiple regions unlocked over seasons", "verified": true},
+        {"slug": "onslaught-nuketown-84", "name": "Onslaught: Nuketown '84", "release": "2020", "type": "onslaught (2p co-op on remixed MP map)", "has_main_easter_egg": false, "verified": true},
+        {"slug": "onslaught-raid", "name": "Onslaught: Raid", "release": "2020", "type": "onslaught (2p co-op on remixed MP map)", "has_main_easter_egg": false, "verified": true}
+      ],
+      "record_categories": {
+        "high_rounds": {"ranking": "higher round is better"},
+        "purist_highrounds": {"ranking": "higher round is better", "note": "Restricted ruleset high-round category, distinct from standard high rounds"},
+        "speedruns": ["10 Speedrun", "20 Speedrun", "30 Speedrun", "50 Speedrun", "70 Speedrun", "100 Speedrun", "200 Speedrun", "935 Speedrun", "Exfil Speedrun", "EE Speedrun", "Build% EE Speedrun", "Super EE Speedrun"],
+        "speedrun_ranking": "lower elapsed time is better",
+        "challenges": ["First Power", "No Power", "No Perks", "No Armour", "No Jug"],
+        "dead_ops_arcade": "Dead Ops Arcade 3 included at launch, separate high-score leaderboard",
+        "verified": true
+      }
+    },
+    {
+      "slug": "vanguard",
+      "game": "Call of Duty: Vanguard",
+      "release_year": 2021,
+      "developer": "Treyarch (with Sledgehammer Games)",
+      "modes": ["Round-based co-op", "Objective-based hybrid (Der Anfang blends round-based, Outbreak-style, and Onslaught-style elements)"],
+      "player_counts": [1, 2, 3, 4],
+      "settings_affecting_records": ["Essence/Salvage currency system carried over from Cold War", "Altar of Covenants: purchasable randomized round buffs unique to Vanguard, a scoring/route variable for records"],
+      "gobblegums": false,
+      "augments": false,
+      "note": "Vanguard Zombies is structurally DIFFERENT from the Cold War/BO6 Aether lineage in its base map (Der Anfang mixes objective and round-based play); only later maps (Shi No Numa remake, The Archon) are 'pure' round-based in the classic sense.",
+      "maps": [
+        {"slug": "der-anfang", "name": "Der Anfang", "release": "2021 (base game)", "type": "hybrid (round-based + objective/outbreak/onslaught elements)", "has_main_easter_egg": true, "verified": true},
+        {"slug": "terra-maledicta", "name": "Terra Maledicta", "release": "2022-02-14 (Season 2)", "type": "hybrid", "has_main_easter_egg": true, "verified": true},
+        {"slug": "shi-no-numa-vanguard", "name": "Shi No Numa (Vanguard remake)", "release": "2022-06-22 (Season 4)", "type": "round-based", "has_main_easter_egg": true, "note": "Also playable as a smaller sub-area within Der Anfang with reduced features", "verified": true},
+        {"slug": "the-archon", "name": "The Archon", "release": "2022 (Season 5)", "type": "round-based", "has_main_easter_egg": true, "note": "Final Vanguard Zombies map", "verified": true}
+      ],
+      "record_categories": {
+        "high_rounds": {"ranking": "higher round is better"},
+        "speedruns": ["EE Speedrun (per-map)"],
+        "speedrun_ranking": "lower elapsed time is better",
+        "verified": false
+      }
+    },
+    {
+      "slug": "bo6",
+      "game": "Call of Duty: Black Ops 6",
+      "release_year": 2024,
+      "developer": "Treyarch",
+      "modes": ["Standard round-based co-op (1-4 players)", "Directed Mode (guided/assisted main-quest completion, added post-launch)", "Grief (competitive team-vs-team)"],
+      "player_counts": [1, 2, 3, 4],
+      "settings_affecting_records": ["Perk-a-Cola Augments: up to 6 options per perk (3 Minor, 3 Major), also Field Upgrade and Ammo Mod augments", "Gobblegums return with rarity tiers: rare/epic/legendary/ultra"],
+      "gobblegums": true,
+      "augments": true,
+      "maps": [
+        {"slug": "liberty-falls", "name": "Liberty Falls", "release": "2024 (launch)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "terminus", "name": "Terminus", "release": "2024 (launch)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "citadelle-des-morts", "name": "Citadelle des Morts", "release": "2024 (Season 1)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "the-tomb", "name": "The Tomb", "release": "2025 (Season 2)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "shattered-veil", "name": "Shattered Veil", "release": "2025 (Season 3)", "type": "round-based", "has_main_easter_egg": true, "verified": false},
+        {"slug": "reckoning", "name": "Reckoning", "release": "2025 (final BO6 map)", "type": "round-based", "has_main_easter_egg": true, "note": "Final map, story continuation from Black Ops Cold War", "verified": false}
+      ],
+      "record_categories": {
+        "high_rounds": {"ranking": "higher round is better"},
+        "speedruns": ["30 Speedrun", "50 Speedrun", "70 Speedrun", "100 Speedrun", "200 Speedrun", "Exfil Speedrun", "EE Speedrun", "Build% EE Speedrun", "Super EE Speedrun"],
+        "speedrun_ranking": "lower elapsed time is better",
+        "challenges": ["First Room", "No Perks", "No Jug"],
+        "verified": true
+      }
+    },
+    {
+      "slug": "bo7",
+      "game": "Call of Duty: Black Ops 7",
+      "release_year": 2025,
+      "release_date": "2025-11-14",
+      "developer": "Treyarch",
+      "modes": [
+        "Standard round-based co-op (1-4 players)",
+        "Directed Mode (carried over from BO6)",
+        "Cursed / Cursed Standard (challenge mode: no loadout weapons except a 1911 pistol + scavenged gear, no minimap, classic BO3-style point system, doubled zombie health, Pack-a-Punch Tier IV, Relic system for extra modifiers/buffs)",
+        "Cursed Survival (added Season 2, Cursed ruleset applied to Survival maps)",
+        "Dead Ops Arcade 4"
+      ],
+      "player_counts": [1, 2, 3, 4],
+      "settings_affecting_records": ["Augments (Minor/Major per perk/field upgrade/ammo mod, carried from BO6)", "Gobblegums", "Relics (Cursed mode only - unlockable modifiers via Relic Trials)", "Pack-a-Punch Tier IV (Cursed mode only)"],
+      "gobblegums": true,
+      "augments": true,
+      "maps_standard": [
+        {"slug": "ashes-of-the-damned", "name": "Ashes of the Damned", "release": "2025-11-14 (launch)", "type": "round-based", "has_main_easter_egg": true, "note": "Largest BO7 map, 7 zones connected by the Ol' Tessie vehicle; first Wonder Vehicle in Zombies", "verified": true},
+        {"slug": "astra-malorum", "name": "Astra Malorum", "release": "2025/2026 (Season 1)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "paradox-junction", "name": "Paradox Junction", "release": "2026 (Season 2 Reloaded)", "type": "round-based", "has_main_easter_egg": true, "note": "Post-nuke reskin of multiplayer's Nuketown", "verified": true},
+        {"slug": "totenreich", "name": "Totenreich", "release": "2026 (Season 3 Reloaded)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "kowakujo", "name": "Kowakujo", "release": "2026 (Season 4 Reloaded)", "type": "round-based", "has_main_easter_egg": true, "verified": true},
+        {"slug": "rex-infernus", "name": "Rex Infernus", "release": "2026 (Season 5 Reloaded)", "type": "round-based", "has_main_easter_egg": true, "note": "Final BO7 map", "verified": true}
+      ],
+      "maps_survival": [
+        {"slug": "vandorn-farm", "name": "Vandorn Farm", "type": "survival", "has_main_easter_egg": false, "verified": false},
+        {"slug": "exit-115", "name": "Exit 115", "type": "survival", "has_main_easter_egg": false, "verified": false},
+        {"slug": "zarya-cosmodrome", "name": "Zarya Cosmodrome", "type": "survival", "has_main_easter_egg": false, "verified": false},
+        {"slug": "mars", "name": "Mars", "type": "survival", "has_main_easter_egg": false, "verified": false},
+        {"slug": "ashwood", "name": "Ashwood", "type": "survival", "has_main_easter_egg": false, "verified": false},
+        {"slug": "nuked", "name": "Nuked", "type": "survival", "has_main_easter_egg": false, "verified": false},
+        {"slug": "eidskallen-lighthouse", "name": "Eidskallen Lighthouse", "type": "survival", "has_main_easter_egg": false, "verified": false}
+      ],
+      "record_categories": {
+        "high_rounds": {"ranking": "higher round is better", "standard_and_cursed_tracked_separately": true},
+        "speedruns": ["30 Speedrun", "50 Speedrun", "70 Speedrun", "100 Speedrun", "EE Speedrun (per map)"],
+        "speedrun_ranking": "lower elapsed time is better",
+        "challenges": ["First Room", "No Perks", "No Jug"],
+        "note": "Exact zwr.gg BO7-specific category list not separately re-verified (BO7 released after most cached search-index content); inferred by extrapolation from BO6's category set.",
+        "verified": false
+      }
+    }
+  ],
+  "record_ranking_conventions": {
+    "high_round": "Higher final round survived is better. 'Flawless' variant requires no player ever going down. Tie-breaks typically by time-to-death or points.",
+    "round_speedrun": "Lower elapsed time to reach the specified round (e.g. round 30/50/70/100/200) is better ('time-to-round').",
+    "ee_speedrun": "Lower elapsed time to complete the map's main story easter egg quest from game start is better; 'Super EE Speedrun' / 'Build% EE Speedrun' are stricter sub-categories (e.g. must also complete all buildable steps).",
+    "challenge_categories": "Binary rule-restriction categories (No Power, No Perks, No Jug, First Room, area-only) ranked by whichever primary metric applies (usually high round, sometimes survival time) while obeying the restriction; verified via video proof per zwr.gg/speedrun.com conventions.",
+    "verified": true
+  },
+  "community_leaderboard_sites": {
+    "zwr.gg": "Zombies World Records — the primary community leaderboard site referenced above for category structure.",
+    "speedrun.com": "Hosts individual game/map speedrun leaderboards (EE speedruns, round speedruns), often overlapping but independently moderated from zwr.gg.",
+    "zombieintel.com": "Community news/tracking site for zombies map intel, easter egg guides and challenge tracking; not independently re-fetched this session for category schemas.",
+    "verified_partial": true
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "game": "Mario Kart World",
+  "platform": "Nintendo Switch 2",
+  "release_date": "2025-06-05",
+  "data_as_of": "2026-09-28",
+  "current_version": "1.8.0",
+  "current_version_release_date": "2026-09-09",
+  "sources": [
+    "https://mkwrs.com/mkworld/",
+    "https://www.nintendolife.com/guides/mario-kart-world-complete-course-list-every-track",
+    "https://www.nintendolife.com/news/2026/09/mario-kart-world-has-been-updated-to-version-1-8-0-here-are-the-full-patch-notes",
+    "https://www.shacknews.com/article/150674/mario-kart-world-version-180-patch-notes",
+    "https://lounge.mkcentral.com/mkworld",
+    "https://www.mariokartcentral.com/wp/mkcentral-new-player-guide/"
+  ],
+  "notes_unverified": [
+    "Track count discrepancy: mkwrs.com summary mentions '32 standard tracks' (likely counting the Peach Stadium and Crown City variants separately) while the actual per-track WR table lists 30 base track names. This file uses 30 base tracks + variants noted separately + 10 SNES tracks. Mark as verified:false pending a full manual cross-check of mkwrs.com track-by-track pages.",
+    "Exact points-per-placement table for MKCentral Lounge 12P and 24P FFA formats could not be confirmed from a primary rules document (image-based tables on lounge.mkcentral.com are not text-searchable). Inferred structure noted where possible.",
+    "MMR division thresholds given are from MK8DX 150cc Lounge (a sister ladder on the same MKCentral platform); MKWorld Lounge is confirmed to use an analogous Bronze/Silver/Gold/Platinum/Diamond/Master tier system but exact MKWorld-specific MMR cutoffs were not found and are marked verified:false."
+  ],
+  "tracks": [
+    {"slug": "mario-bros-circuit", "name": "Mario Bros. Circuit", "cup": "Mushroom Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "crown-city", "name": "Crown City", "cup": "Mushroom Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "note": "Has a second variant used elsewhere in Grand Prix routing (intercourse road sections); mkwrs may list variants separately.", "verified": true},
+    {"slug": "whistlestop-summit", "name": "Whistlestop Summit", "cup": "Mushroom Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "dk-spaceport", "name": "DK Spaceport", "cup": "Mushroom Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "desert-hills", "name": "Desert Hills", "cup": "Flower Cup", "origin": "returning", "origin_game": "Mario Kart DS", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "shy-guy-bazaar", "name": "Shy Guy Bazaar", "cup": "Flower Cup", "origin": "returning", "origin_game": "Mario Kart 7", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "wario-stadium", "name": "Wario Stadium", "cup": "Flower Cup", "origin": "returning", "origin_game": "Mario Kart 64", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "airship-fortress", "name": "Airship Fortress", "cup": "Flower Cup", "origin": "returning", "origin_game": "Mario Kart DS", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "dk-pass", "name": "DK Pass", "cup": "Star Cup", "origin": "returning", "origin_game": "Mario Kart DS", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "starview-peak", "name": "Starview Peak", "cup": "Star Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "sky-high-sundae", "name": "Sky-High Sundae", "cup": "Star Cup", "origin": "returning", "origin_game": "Mario Kart 8 Deluxe (Booster Course Pass)", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "wario-shipyard", "name": "Wario Shipyard", "cup": "Star Cup", "origin": "returning", "origin_game": "Mario Kart 7", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "koopa-troopa-beach", "name": "Koopa Troopa Beach", "cup": "Shell Cup", "origin": "returning", "origin_game": "Super Mario Kart", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "faraway-oasis", "name": "Faraway Oasis", "cup": "Shell Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "crown-city-shell", "name": "Crown City (Shell Cup routing)", "cup": "Shell Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "note": "Same location as Mushroom Cup's Crown City; listed twice by some sources as a cup-routing variant, not a distinct WR entry on mkwrs.com.", "verified": false},
+    {"slug": "peach-stadium", "name": "Peach Stadium", "cup": "Shell Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "note": "Also appears in Special Cup; has 2 variants per some sources.", "verified": true},
+    {"slug": "peach-beach", "name": "Peach Beach", "cup": "Banana Cup", "origin": "returning", "origin_game": "Mario Kart: Double Dash!!", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "salty-salty-speedway", "name": "Salty Salty Speedway", "cup": "Banana Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "dino-dino-jungle", "name": "Dino Dino Jungle", "cup": "Banana Cup", "origin": "returning", "origin_game": "Mario Kart: Double Dash!!", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "great-block-ruins", "name": "Great ? Block Ruins", "cup": "Banana Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "cheep-cheep-falls", "name": "Cheep Cheep Falls", "cup": "Leaf Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "dandelion-depths", "name": "Dandelion Depths", "cup": "Leaf Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "boo-cinema", "name": "Boo Cinema", "cup": "Leaf Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "dry-bones-burnout", "name": "Dry Bones Burnout", "cup": "Leaf Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "moo-moo-meadows", "name": "Moo Moo Meadows", "cup": "Lightning Cup", "origin": "returning", "origin_game": "Mario Kart Wii", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "choco-mountain", "name": "Choco Mountain", "cup": "Lightning Cup", "origin": "returning", "origin_game": "Mario Kart 64", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "toads-factory", "name": "Toad's Factory", "cup": "Lightning Cup", "origin": "returning", "origin_game": "Mario Kart Wii", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "bowsers-castle", "name": "Bowser's Castle", "cup": "Lightning Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "acorn-heights", "name": "Acorn Heights", "cup": "Special Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "note": "Special Cup unlocks after clearing the 7 starting Grand Prix cups.", "verified": true},
+    {"slug": "mario-circuit", "name": "Mario Circuit", "cup": "Special Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "rainbow-road", "name": "Rainbow Road", "cup": "Special Cup", "origin": "new", "time_trials": true, "added_in_version": "1.0.0", "verified": true},
+    {"slug": "snes-mario-circuit-1", "name": "SNES Mario Circuit 1", "cup": "Grouped under Mario Circuit", "origin": "returning", "origin_game": "Super Mario Kart", "time_trials": true, "added_in_version": "1.8.0", "verified": true},
+    {"slug": "snes-mario-circuit-2", "name": "SNES Mario Circuit 2", "cup": "Grouped under Mario Circuit", "origin": "returning", "origin_game": "Super Mario Kart", "time_trials": true, "added_in_version": "1.8.0", "verified": true},
+    {"slug": "snes-mario-circuit-3", "name": "SNES Mario Circuit 3", "cup": "Grouped under Mario Circuit", "origin": "returning", "origin_game": "Super Mario Kart", "time_trials": true, "added_in_version": "1.8.0", "verified": true},
+    {"slug": "snes-ghost-valley-1", "name": "SNES Ghost Valley 1", "cup": "Grouped under Boo Cinema", "origin": "returning", "origin_game": "Super Mario Kart", "time_trials": true, "added_in_version": "1.8.0", "verified": true},
+    {"slug": "snes-ghost-valley-2", "name": "SNES Ghost Valley 2", "cup": "Grouped under Boo Cinema", "origin": "returning", "origin_game": "Super Mario Kart", "time_trials": true, "added_in_version": "1.8.0", "verified": true},
+    {"slug": "snes-ghost-valley-3", "name": "SNES Ghost Valley 3", "cup": "Grouped under Boo Cinema", "origin": "returning", "origin_game": "Super Mario Kart", "time_trials": true, "added_in_version": "1.8.0", "verified": true},
+    {"slug": "snes-choco-island-1", "name": "SNES Choco Island 1", "cup": "Grouped under Choco Mountain", "origin": "returning", "origin_game": "Super Mario Kart", "time_trials": true, "added_in_version": "1.8.0", "verified": true},
+    {"slug": "snes-choco-island-2", "name": "SNES Choco Island 2", "cup": "Grouped under Choco Mountain", "origin": "returning", "origin_game": "Super Mario Kart", "time_trials": true, "added_in_version": "1.8.0", "verified": true},
+    {"slug": "snes-koopa-beach-1", "name": "SNES Koopa Beach 1", "cup": "Grouped under Koopa Troopa Beach", "origin": "returning", "origin_game": "Super Mario Kart", "time_trials": true, "added_in_version": "1.8.0", "verified": true},
+    {"slug": "snes-vanilla-lake-1", "name": "SNES Vanilla Lake 1", "cup": "Grouped under Sky-High Sundae", "origin": "returning", "origin_game": "Super Mario Kart", "time_trials": true, "added_in_version": "1.8.0", "verified": true}
+  ],
+  "knockout_tour": {
+    "description": "24-player endurance mode: one long race across 6 linked tracks per 'rally', with progressive elimination of the lowest placed racers after each leg.",
+    "rally_count": "12 total rallies as of 1.8.0 (community count; official Nintendo count not independently re-verified this session)",
+    "verified": false,
+    "notable_rallies_added_1_8_0": ["Propeller Rally", "Turnip Rally (both promoted to full Knockout Tour selection in 1.8.0, previously only reachable via play-through)"]
+  },
+  "time_trial_rules": {
+    "cc_classes": {
+      "options": ["150cc"],
+      "note": "Mario Kart World Time Trials mode, like the rest of the game, does not offer a separate 200cc class; 200cc engine class exists only in VS Race / Grand Prix, not in Time Trials. mkwrs.com WR tables for MKWorld show a single time per track (no 150cc/200cc split), consistent with this.",
+      "verified": true
+    },
+    "laps": "3 laps standard (as in prior 3D-era Mario Kart games); exact per-track lap count not individually re-verified for every track this session.",
+    "laps_verified": false,
+    "items": {
+      "mushrooms_only": true,
+      "note": "Time Trials in Mario Kart World give the player a limited set of Mushrooms/Super Mushrooms as the only usable item, consistent with series convention since Mario Kart 64/Double Dash; no other items appear.",
+      "verified": false
+    },
+    "ghost_data": {
+      "staff_ghost": "Each track has a developer 'staff ghost' for target time, standard series feature.",
+      "player_ghost_save": "The game saves only the player's single best ghost per track (no history of prior attempts) — this is a known UI limitation, see record-dimensions.md.",
+      "v1_8_0_qol": "Per-lap split times now shown live during Time Trials; ghost time-difference indicator changed color scheme (red = player ahead, blue = player behind) in v1.8.0.",
+      "verified": true
+    },
+    "shortcut_tracking": {
+      "mkwrs_categories": "mkwrs.com/mkworld tracks a single 'current WR' per track without a visible shortcut/no-shortcut split in the summary view fetched this session (unlike some older MK titles' mkwrs pages, e.g. MK8DX which separate 'Non-SC' times). This may differ once shortcuts are datamined/patched; recommend re-checking mkwrs.com directly per-track page before building strict schema.",
+      "verified": false
+    }
+  },
+  "world_records_150cc": [
+    {"track_slug": "mario-bros-circuit", "time": "1:47.342", "holder": "あつき", "date": "2026-08-27", "verified": true},
+    {"track_slug": "crown-city", "time": "2:03.354", "holder": "Pluto", "date": "2026-07-08", "verified": true},
+    {"track_slug": "whistlestop-summit", "time": "1:43.723", "holder": "Jorge", "date": "2025-12-31", "verified": true},
+    {"track_slug": "dk-spaceport", "time": "1:28.557", "holder": "Darragh", "date": "2026-09-13", "verified": true},
+    {"track_slug": "desert-hills", "time": "1:30.636", "holder": "Jacob", "date": "2026-09-13", "verified": true},
+    {"track_slug": "shy-guy-bazaar", "time": "1:50.238", "holder": "Jojo", "date": "2026-08-14", "verified": true},
+    {"track_slug": "wario-stadium", "time": "1:59.766", "holder": "Karma", "date": "2026-09-19", "verified": true},
+    {"track_slug": "airship-fortress", "time": "1:53.991", "holder": "LegoWiiMan", "date": "2026-07-24", "verified": true},
+    {"track_slug": "dk-pass", "time": "1:57.793", "holder": "Tanuki", "date": "2026-09-15", "verified": true},
+    {"track_slug": "starview-peak", "time": "2:09.187", "holder": "Mikuel", "date": "2026-09-01", "verified": true},
+    {"track_slug": "sky-high-sundae", "time": "1:52.717", "holder": "Lukie", "date": "2026-09-25", "verified": true},
+    {"track_slug": "wario-shipyard", "time": "2:15.904", "holder": "Another", "date": "2026-06-28", "verified": true},
+    {"track_slug": "koopa-troopa-beach", "time": "1:26.309", "holder": "Optik", "date": "2026-06-20", "verified": true},
+    {"track_slug": "faraway-oasis", "time": "1:54.704", "holder": "まりちゅう", "date": "2026-08-31", "verified": true},
+    {"track_slug": "peach-stadium", "time": "2:13.782", "holder": "Optik", "date": "2026-09-25", "verified": true},
+    {"track_slug": "peach-beach", "time": "1:39.804", "holder": "ありすがわ", "date": "2026-08-14", "verified": true},
+    {"track_slug": "salty-salty-speedway", "time": "1:54.345", "holder": "Optik", "date": "2026-08-01", "verified": true},
+    {"track_slug": "dino-dino-jungle", "time": "1:44.105", "holder": "Panda", "date": "2026-08-22", "verified": true},
+    {"track_slug": "great-block-ruins", "time": "2:01.648", "holder": "SpeZy", "date": "2026-08-03", "verified": true},
+    {"track_slug": "cheep-cheep-falls", "time": "1:53.881", "holder": "flurry", "date": "2026-06-15", "verified": true},
+    {"track_slug": "dandelion-depths", "time": "2:16.997", "holder": "JaK", "date": "2026-08-12", "verified": true},
+    {"track_slug": "boo-cinema", "time": "2:03.755", "holder": "jBoneX", "date": "2026-06-18", "verified": true},
+    {"track_slug": "dry-bones-burnout", "time": "2:05.370", "holder": "Chrin", "date": "2026-09-06", "verified": true},
+    {"track_slug": "moo-moo-meadows", "time": "1:53.159", "holder": "Harpan", "date": "2026-07-26", "verified": true},
+    {"track_slug": "choco-mountain", "time": "2:00.680", "holder": "Ace_Beaton", "date": "2026-08-18", "verified": true},
+    {"track_slug": "toads-factory", "time": "1:51.172", "holder": "ありすがわ", "date": "2026-06-07", "verified": true},
+    {"track_slug": "bowsers-castle", "time": "2:08.712", "holder": "Amiel", "date": "2026-09-16", "verified": true},
+    {"track_slug": "acorn-heights", "time": "1:56.966", "holder": "Fetch", "date": "2026-08-20", "verified": true},
+    {"track_slug": "mario-circuit", "time": "1:02.770", "holder": "JaK", "date": "2026-09-06", "verified": true},
+    {"track_slug": "rainbow-road", "time": "3:52.848", "holder": "Technical", "date": "2026-07-29", "verified": true},
+    {"track_slug": "snes-mario-circuit-1", "time": "1:15.289", "holder": "Logan", "date": "2026-09-23", "verified": true},
+    {"track_slug": "snes-mario-circuit-2", "time": "1:40.655", "holder": "coopdawg", "date": "2026-09-23", "verified": true},
+    {"track_slug": "snes-mario-circuit-3", "time": "1:50.687", "holder": "JaK", "date": "2026-09-24", "verified": true},
+    {"track_slug": "snes-ghost-valley-1", "time": "1:39.935", "holder": "SpeZy", "date": "2026-09-24", "verified": true},
+    {"track_slug": "snes-ghost-valley-2", "time": "1:35.830", "holder": "Lean", "date": "2026-09-26", "verified": true},
+    {"track_slug": "snes-ghost-valley-3", "time": "2:13.877", "holder": "Kunichan", "date": "2026-09-26", "verified": true},
+    {"track_slug": "snes-choco-island-1", "time": "1:29.418", "holder": "EggDog", "date": "2026-09-19", "verified": true},
+    {"track_slug": "snes-choco-island-2", "time": "2:03.235", "holder": "TheIta", "date": "2026-09-23", "verified": true},
+    {"track_slug": "snes-koopa-beach-1", "time": "1:14.602", "holder": "Kado", "date": "2026-09-17", "verified": true},
+    {"track_slug": "snes-vanilla-lake-1", "time": "1:22.199", "holder": "K4I", "date": "2026-09-27", "verified": true}
+  ],
+  "world_records_200cc": {
+    "exists": false,
+    "note": "Mario Kart World Time Trials does not have a 200cc category; all mkwrs.com records above are the single class tracked (functionally 150cc-equivalent handling).",
+    "verified": true
+  },
+  "characters_karts_costumes": {
+    "character_roster_size": "Large roster (all-time-largest at launch, ~20+ characters plus many NPC/'random' Mii-less characters); full enumerated list not captured this session.",
+    "verified": false,
+    "vehicle_customization": {
+      "system_change_from_mk8": "Mario Kart World simplified vehicle customization vs Mario Kart 8 Deluxe: there is no separate body/tires/glider part selection. Each character has one associated default kart, and outfit/costume changes are cosmetic, tied to picking up food items on the course (e.g. eating a specific food changes the character's costume) rather than a garage combo-builder.",
+      "note": "This is a notable structural difference from MK8DX's character+body+tires+glider stat-combo system; needs re-confirmation against an official Nintendo source before treating as fully authoritative for app schema design.",
+      "verified": false
+    },
+    "combo_relevance_for_records_app": "Because MKWorld has no stat-affecting part combos (unlike MK8DX), a 'combo' field for MKWorld records should probably just be 'character' (and possibly 'costume' for cosmetic-only flavor), not a full part loadout — confirm before finalizing schema."
+  },
+  "competitive_online": {
+    "platform": "MKCentral Lounge (lounge.mkcentral.com/mkworld), the Mario Kart World ladder alongside the pre-existing MK8DX Lounge on the same MKCentral platform.",
+    "seasons_known": ["Preseason", "Season 1", "Season 2", "Season 3 (current as of 2026-09-28)"],
+    "format": {
+      "room_sizes": ["12-player (12P)", "24-player (24P)"],
+      "note": "In Preseason and Season 1, 12P and 24P results fed into a single combined MMR; from Season 2 onward they are tracked as separate MMR pools/leaderboards.",
+      "mode": "FFA (individual placement-based scoring), also 2v2/3v3/4v4 team 'mogi' formats and 6v6 'war' formats voted on by lobby, mirroring the long-standing MK8DX Lounge structure.",
+      "verified": true
+    },
+    "points_table": {
+      "confirmed_total_points_per_6v6_war": 984,
+      "confirmed_win_threshold": "493 (first team to reach it wins the war)",
+      "races_per_war": 12,
+      "inferred_per_race_point_table_12_racers": "15-12-10-9-8-7-6-5-4-3-2-1 (sums to 82/race; 82 x 12 races = 984, consistent with the confirmed war total) — this matches the classic MK Lounge/War point table used since MK Wii/MK8DX Lounge, but was not found verbatim in a 2026 MKWorld-specific rules document this session.",
+      "verified": false,
+      "ffa_24p_note": "A sampled 24-player Season 2 lounge table showed individual event scores ranging roughly 40-112 points, implying a wider placement-based point table scaled for 24 racers across multiple races, but the exact per-placement numbers were not extracted from a primary source.",
+      "ffa_24p_verified": false
+    },
+    "mmr_ranks": {
+      "tier_names_generic_lounge_pattern": ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master"],
+      "mk8dx_150cc_lounge_thresholds_for_reference": {
+        "Bronze": "0-2499 (placement 1750)",
+        "Silver": "2500-3999 (placement 3250)",
+        "Gold": "4000-5499 (placement 4750)",
+        "Platinum": "5500-6999 (placement 6250)",
+        "Diamond": "7000-8999 (placement 7500)",
+        "Master": "9000+"
+      },
+      "note": "These exact thresholds are documented for MK8DX 150cc Lounge, a sister ladder on the same MKCentral platform. MKWorld Lounge almost certainly uses the same tier NAMES but its own numeric MMR cutoffs (different game, different average placement rating scale) were not found verbatim this session.",
+      "verified": false
+    },
+    "wars_format": {
+      "team_size": "6v6",
+      "races": 12,
+      "scoring": "Sum of per-race placement points across all 12 races per team; first team to 493+ of the 984 total available points wins the war.",
+      "verified": true
+    },
+    "tournament_formats": {
+      "common_formats": ["Lounge FFA events (12P/24P)", "Clan War League (structured season, conference-based, 6v6, best-of series, playoffs)", "One-off community 'Summit FFA' invitational/qualifier tournaments"],
+      "verified": false
+    }
+  }
+}
