@@ -204,6 +204,21 @@ table { border-collapse: collapse; width: 100%; }
 .chips button.add { border-style: dashed; color: var(--ink); }
 .search, .input, select.input, textarea.input { width: 100%; background: var(--bg); border: 1px solid var(--rule); min-height: 44px; padding: 0 12px; font-size: 16px; border-radius: 0; }
 .search { margin-top: 8px; }
+[hidden] { display: none !important; }
+.picker .chips { margin-bottom: 8px; }
+.picker .search { margin-top: 0; }
+.pick-in { position: relative; }
+.pick-list { position: absolute; z-index: 20; left: 0; right: 0; top: 100%; background: var(--row); border: 1px solid var(--ink); border-top: 0; max-height: min(50vh, 400px); overflow-y: auto; list-style: none; }
+.pick-list li { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 48px; padding: 0 12px; border-bottom: 1px solid var(--rule); cursor: pointer; font-weight: 600; font-size: 16px; }
+.pick-list li:last-child { border-bottom: 0; }
+.pick-list li small { color: var(--faint); font-weight: 600; font-size: 13px; font-stretch: var(--cond); white-space: nowrap; }
+.pick-list li[aria-selected=true] > span { text-decoration: underline; text-underline-offset: 4px; }
+.pick-list li.on { background: var(--ink); color: var(--bg); }
+.pick-list li.on small { color: var(--bg); }
+.pick-list li.add > span { border-bottom: 1px dashed currentColor; }
+.pick-list li.none { color: var(--dim); cursor: default; font-weight: 400; }
+.listfilter { margin: 0 0 18px; max-width: 420px; }
+.listfilter .search { margin-top: 0; }
 .input, .search { font-stretch: 100%; font-weight: 400; }
 textarea.input { padding: 10px 12px; min-height: 88px; resize: vertical; line-height: 1.4; }
 select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0h10L5 6z' fill='%23a9a89e'/%3E%3C/svg%3E"); background-position: right 12px center; background-repeat: no-repeat; padding-right: 32px; }
@@ -243,6 +258,7 @@ select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csv
 .btn.ghost:hover { border-color: var(--ink); }
 .btn.warn { background: none; color: var(--bad); border-color: var(--bad); }
 .btn[disabled] { opacity: .55; cursor: wait; }
+.btn.big { min-height: 52px; padding: 0 22px; font-size: 15px; }
 .errors { border: 1px solid var(--bad); padding: 10px 12px; margin-bottom: 16px; font-size: 14px; }
 .errors b { display: block; margin-bottom: 4px; color: var(--bad); }
 .errors li { list-style: none; }
@@ -281,6 +297,11 @@ select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csv
 .modeblock { margin-bottom: 40px; }
 .modeblock h3 { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .modeblock h3 a { font-size: 14px; font-weight: 600; color: var(--dim); }
+.modetabs { margin: 0 0 12px; }
+.boards .notime { font-size: 13px; font-weight: 500; font-stretch: 100%; }
+.welcome { padding: 20px 0 28px; border-top: 2px solid var(--ink); max-width: 640px; }
+.welcome p { font-size: 18px; margin-bottom: 16px; }
+.welcome .acts { display: flex; flex-wrap: wrap; gap: 10px; }
 .boards .th, .boards .tr { grid-template-columns: minmax(0, 1fr) 140px 110px 110px 110px; }
 .boards .th span:nth-child(n+2) { text-align: right; }
 .editor { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 48px; align-items: start; }

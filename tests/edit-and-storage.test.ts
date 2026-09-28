@@ -77,6 +77,7 @@ describe("counters", () => {
     expect(es("settings.storageFiles", { n: 1 })).toBe("1 archivo");
     expect(en("games.wrRefreshed", { n: 1 })).toBe("1 world record updated.");
     expect(es("board.history", { n: 1, months: "1 mes" })).toBe("Historial del PB · 1 mejora en 1 mes");
-    expect(en("log.more", { n: 1 })).toBe("All 1");
+    expect(en("picker.count", { n: 1 })).toBe("1 match");
+    expect(es("picker.count", { n: 3 })).toBe("3 resultados");
   });
 });

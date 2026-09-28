@@ -27,7 +27,9 @@ Vercel Blob (private store) for proof · plain CSS, Archivo via `next/font`.
 
 Code map: `src/lib/template.ts` (templates, validation, board keys), `src/lib/pb.ts` (PBs, splits
 colours), `src/lib/time.ts` (time parsing/formatting), `src/lib/wr/` (mkwrs scraper + refresh),
-`src/lib/seed/` (seed data), `src/lib/i18n/dict.ts` (every UI string, EN and ES).
+`src/lib/seed/` (seed data), `src/lib/i18n/dict.ts` (every UI string, EN and ES),
+`src/lib/match.ts` + `src/components/Picker.tsx` (the one type-to-filter control for long lists:
+initials, accents, short codes, recently used first).
 
 ## Local development
 
@@ -49,7 +51,8 @@ Proof uploads need `BLOB_READ_WRITE_TOKEN` in `.env.local` (`vercel env pull`).
 
 Checks: `npm test` (vitest), `npm run typecheck`, `npm run lint`, `npm run build`.
 Browser QA helpers live in `tools/` (`qa-flow.mjs` logs a TT time with proof, a zombies session and
-an invite; `qa-edit.mjs` edits a TT time into a PB and drops its proof; `shots.mjs` takes 390 and
+an invite; `qa-edit.mjs` edits a TT time into a PB and drops its proof; `qa-lists.mjs` checks the pickers
+and list filters; `shots.mjs` takes 390 and
 1440 px screenshots into `docs/shots/`).
 
 ## Production (Vercel)

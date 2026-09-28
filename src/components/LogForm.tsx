@@ -21,6 +21,7 @@ import {
 import { digitsToTime, formatDelta, formatInt, formatNumberDelta, formatSplit, formatTime, parseTime } from "@/lib/time";
 import { fileSize, uploadProof, type PendingFile } from "@/lib/upload-client";
 import { Glyphs } from "./Bits";
+import { Picker } from "./Picker";
 import { ProofPicker } from "./ProofPicker";
 
 export interface LogMode {
@@ -72,6 +73,8 @@ interface Props {
   wrs: Record<number, Record<string, BoardRef>>;
   /** catalog key → item ids I used most recently */
   recent: Record<string, number[]>;
+  /** game slugs I logged most recently */
+  recentGames: string[];
   initialModeId: number | null;
   initialKey: string | null;
   edit?: EditSeed;
@@ -291,7 +294,7 @@ export function LogForm(props: Props) {
     const items = cat?.items ?? [];
     const val = typeof raw[f.key] === "string" ? (raw[f.key] as string) : "";
     const label = fieldLabel(f, lang);
-    if (items.length <= 6) {
+    if (items.length > 0 && items.length <= 6) {
       return (
         <div className="field" key={f.key}>
           <span className="lbl" id={`l-${f.key}`}>{label}</span>
@@ -302,22 +305,28 @@ export function LogForm(props: Props) {
               </button>
             ))}
           </div>
-          {items.length === 0 && <ChipSearch f={f} items={items} val={val} onPick={(id) => set(f.key, id)} onAdd={(n) => addItem(f, n)} lang={lang} recent={[]} catalogName={cat?.name ?? label} />}
         </div>
       );
     }
+    const catName = cat ? (lang === "es" && cat.nameEs ? cat.nameEs : cat.name) : label;
     return (
       <div className="field" key={f.key}>
         <span className="lbl" id={`l-${f.key}`}>{label}</span>
-        <ChipSearch
-          f={f}
-          items={items}
-          val={val}
-          onPick={(id) => set(f.key, id)}
-          onAdd={(n) => addItem(f, n)}
+        <Picker
           lang={lang}
-          recent={props.recent[f.catalog ?? ""] ?? []}
-          catalogName={label.toLowerCase()}
+          label={label}
+          what={catName.toLowerCase()}
+          labelledBy={`l-${f.key}`}
+          options={items.map((i) => ({
+            id: String(i.id),
+            label: itemText(i, lang),
+            sub: typeof i.meta?.cup === "string" ? (i.meta.cup as string) : undefined,
+            aliases: [i.name, i.nameEs ?? ""].filter((x) => x && x !== itemText(i, lang)),
+          }))}
+          value={val || null}
+          onPick={(id) => set(f.key, id)}
+          recent={(props.recent[f.catalog ?? ""] ?? []).map(String)}
+          onAdd={cat ? (n) => addItem(f, n) : undefined}
         />
       </div>
     );
@@ -610,14 +619,18 @@ export function LogForm(props: Props) {
           ) : (
             <>
               <div className="field">
-                <label htmlFor="game">{t("log.game")}</label>
-                <select id="game" className="input" value={props.gameSlug} onChange={(e) => router.push(`/log?game=${e.target.value}`)}>
-                  {props.games.map((g) => (
-                    <option key={g.slug} value={g.slug}>
-                      {g.name}
-                    </option>
-                  ))}
-                </select>
+                <span className="lbl" id="l-game">{t("log.game")}</span>
+                <Picker
+                  lang={lang}
+                  label={t("log.game")}
+                  what={t("picker.games")}
+                  labelledBy="l-game"
+                  chips={4}
+                  options={props.games.map((g) => ({ id: g.slug, label: g.name, sub: g.shortCode, aliases: [g.shortCode] }))}
+                  value={props.gameSlug}
+                  recent={props.recentGames}
+                  onPick={(slug) => slug !== props.gameSlug && router.push(`/log?game=${slug}`)}
+                />
               </div>
 
               <div className="field">
@@ -770,98 +783,5 @@ export function LogForm(props: Props) {
         </div>
       </div>
     </section>
-  );
-}
-
-function ChipSearch({
-  f,
-  items,
-  val,
-  onPick,
-  onAdd,
-  lang,
-  recent,
-  catalogName,
-}: {
-  f: FieldDef;
-  items: CatalogItemLite[];
-  val: string;
-  onPick: (id: string) => void;
-  onAdd: (name: string) => Promise<void>;
-  lang: Lang;
-  recent: number[];
-  catalogName: string;
-}) {
-  const t = makeT(lang);
-  const [q, setQ] = useState("");
-  const [adding, setAdding] = useState(false);
-  const [all, setAll] = useState(false);
-  const norm = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-  const byId = new Map(items.map((i) => [i.id, i]));
-  let shown: CatalogItemLite[];
-  if (q.trim()) {
-    const n = norm(q.trim());
-    shown = items.filter((i) => norm(i.name).includes(n) || (i.nameEs && norm(i.nameEs).includes(n))).slice(0, 10);
-  } else if (all) {
-    shown = items;
-  } else {
-    const ids = [...recent.filter((id) => byId.has(id))];
-    for (const i of items) if (ids.length < 6 && !ids.includes(i.id)) ids.push(i.id);
-    if (val && !ids.includes(Number(val))) ids.unshift(Number(val));
-    shown = ids.slice(0, 7).map((id) => byId.get(id)!).filter(Boolean);
-  }
-  const exact = items.some((i) => norm(i.name) === norm(q.trim()));
-  return (
-    <>
-      <div className="chips" role="group" aria-label={fieldLabel(f, lang)}>
-        {shown.map((i) => (
-          <button
-            type="button"
-            key={i.id}
-            aria-pressed={val === String(i.id)}
-            onClick={() => {
-              onPick(String(i.id));
-              setQ("");
-              setAll(false);
-            }}
-          >
-            {itemText(i, lang)}
-          </button>
-        ))}
-        {!q.trim() && items.length > shown.length && (
-          <button type="button" className="more" onClick={() => setAll(true)}>
-            {t("log.more", { n: items.length })}
-          </button>
-        )}
-        {!q.trim() && all && (
-          <button type="button" className="more" onClick={() => setAll(false)}>
-            {t("log.hide")}
-          </button>
-        )}
-        {q.trim() && !exact && (
-          <button
-            type="button"
-            className="add"
-            disabled={adding}
-            onClick={async () => {
-              setAdding(true);
-              await onAdd(q.trim());
-              setAdding(false);
-              setQ("");
-            }}
-          >
-            {adding ? t("log.adding") : t("log.addItem", { name: q.trim() })}
-          </button>
-        )}
-      </div>
-      <input
-        className="search"
-        type="search"
-        placeholder={t("log.other", { what: catalogName })}
-        aria-label={`${t("log.search")}: ${fieldLabel(f, lang)}`}
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-      />
-    </>
   );
 }

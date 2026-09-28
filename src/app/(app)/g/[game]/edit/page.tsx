@@ -6,6 +6,7 @@ import { getT } from "@/lib/i18n/server";
 import { itemName, modeName } from "@/lib/present";
 import { AddItemForm, EditGameForm, NewCatalogForm } from "@/components/GameForms";
 import { ModeEditor } from "@/components/ModeEditor";
+import { ListFilter } from "@/components/Picker";
 
 export const metadata = { title: "Edit game" };
 
@@ -42,16 +43,19 @@ export default async function EditGamePage({ params }: { params: Promise<{ game:
           {cats.map((c) => {
             const list = items[c.key] ?? [];
             return (
-              <details className="cat" key={c.id}>
+              <details className="cat" key={c.id} data-filter-scope>
                 <summary>
                   <span>{lang === "es" && c.nameEs ? c.nameEs : c.name}</span>
                   <small>
                     {c.key} · {t("editor.items", { n: list.length })}
                   </small>
                 </summary>
+                {list.length > 12 && (
+                  <ListFilter lang={lang} what={(lang === "es" && c.nameEs ? c.nameEs : c.name).toLowerCase()} target="li[data-filter]" total={list.length} />
+                )}
                 <ul>
                   {list.map((i) => (
-                    <li key={i.id}>
+                    <li key={i.id} data-filter={[i.name, i.nameEs].filter(Boolean).join("|")}>
                       {itemName(i, lang)}
                       {i.createdBy && <small>{t("editor.createdBy", { code: world.userById.get(i.createdBy)?.code ?? "?" })}</small>}
                     </li>
