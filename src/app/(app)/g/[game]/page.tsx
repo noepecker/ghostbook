@@ -11,6 +11,7 @@ import { boardLabel, boardPath, formatScore, itemName, modeName } from "@/lib/pr
 import { fieldLabel, parseBoardKey } from "@/lib/template";
 import { lastRefresh, SOURCES } from "@/lib/wr/refresh";
 import { RefreshWrButton } from "@/components/GameForms";
+import { ListFilter } from "@/components/Picker";
 
 export async function generateMetadata({ params }: { params: Promise<{ game: string }> }) {
   const { game } = await params;
@@ -32,7 +33,7 @@ export default async function GamePage({ params, searchParams }: { params: Promi
   const last = game.wrSource ? await lastRefresh(db, game.wrSource) : null;
 
   return (
-    <section>
+    <section data-filter-scope>
       <div className="trackhead">
         <div>
           <p className="kicker">
@@ -53,6 +54,9 @@ export default async function GamePage({ params, searchParams }: { params: Promi
         </p>
       )}
 
+      {wrList.length + recs.length > 12 && (
+        <ListFilter lang={lang} what={t("picker.boards")} target=".boards .tr[data-filter]" total={new Set([...wrList.map((w) => `${w.modeId}|${w.boardKey}`), ...recs.map((r) => `${r.modeId}|${r.boardKey}`)]).size} />
+      )}
       {modes.map((mode) => {
         const tpl = mode.template;
         const mine = recs.filter((r) => r.modeId === mode.id);
@@ -98,11 +102,12 @@ export default async function GamePage({ params, searchParams }: { params: Promi
             const u = world.userById.get(Number(owner.slice(5)));
             if (!best || isBetter(r.score, best.score, dir)) best = { code: u?.code ?? "?", score: r.score };
           }
-          return { bk, b: boardLabel(mode, bk, world, lang), best, minePb: owners?.get(userKey(me.id)), wr: wrs.get(bk), latest };
+          const alt = boardLabel(mode, bk, world, lang === "es" ? "en" : "es").title;
+          return { bk, b: boardLabel(mode, bk, world, lang), alt, best, minePb: owners?.get(userKey(me.id)), wr: wrs.get(bk), latest };
         });
         const logHref = `/log?mode=${mode.id}`;
         return (
-          <div className="modeblock" key={mode.id}>
+          <div className="modeblock" key={mode.id} data-filter-group>
             <h3>
               <span>{modeName(mode, lang)}</span>
               <Link href={logHref}>{t("nav.log")}</Link>
@@ -134,7 +139,13 @@ export default async function GamePage({ params, searchParams }: { params: Promi
                   <span>{t("col.latest")}</span>
                 </div>
                 {rows.map((r) => (
-                  <Link className={`tr${r.latest ? "" : " wronly"}`} role="row" key={r.bk} href={boardPath(game, mode, r.bk, world)}>
+                  <Link
+                    className={`tr${r.latest ? "" : " wronly"}`}
+                    role="row"
+                    key={r.bk}
+                    href={boardPath(game, mode, r.bk, world)}
+                    data-filter={[r.b.title, r.b.rest, r.alt].filter(Boolean).join("|")}
+                  >
                     <span className="trk">
                       {r.b.title}
                       {r.b.rest && <span className="dim" style={{ fontWeight: 600, fontStretch: "72%", marginLeft: 8 }}>{r.b.rest}</span>}

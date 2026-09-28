@@ -1,5 +1,5 @@
 import "server-only";
-import { recordsForUser, worldRecordsFor, type Game, type World } from "./data";
+import { recentModeIds, recordsForUser, worldRecordsFor, type Game, type World } from "./data";
 import type { Lang } from "./i18n/dict";
 import { bestSplits, computePBs, userKey } from "./pb";
 import { splitsFieldKey, splitsOf } from "./views";
@@ -15,6 +15,7 @@ export interface LogProps {
   pbs: Record<number, Record<string, BoardRef>>;
   wrs: Record<number, Record<string, BoardRef>>;
   recent: Record<string, number[]>;
+  recentGames: string[];
 }
 
 /**
@@ -25,7 +26,12 @@ export interface LogProps {
 export async function buildLogProps(world: World, game: Game, meId: number, lang: Lang, excludeRecordId?: number): Promise<LogProps> {
   const modes = world.modes.filter((m) => m.gameId === game.id);
   const modeIds = modes.map((m) => m.id);
-  const [all, wrList] = await Promise.all([recordsForUser(meId, modeIds), worldRecordsFor(modeIds)]);
+  const [all, wrList, recentModes] = await Promise.all([recordsForUser(meId, modeIds), worldRecordsFor(modeIds), recentModeIds(meId)]);
+  const recentGames: string[] = [];
+  for (const id of recentModes) {
+    const g = world.gameById.get(world.modeById.get(id)?.gameId ?? -1);
+    if (g && !recentGames.includes(g.slug)) recentGames.push(g.slug);
+  }
   const mine = excludeRecordId ? all.filter((r) => r.id !== excludeRecordId) : all;
 
   const pbs: Record<number, Record<string, BoardRef>> = {};
@@ -81,5 +87,6 @@ export async function buildLogProps(world: World, game: Game, meId: number, lang
     pbs,
     wrs,
     recent,
+    recentGames,
   };
 }

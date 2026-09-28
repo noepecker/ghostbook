@@ -163,3 +163,14 @@ export async function modeRecordCounts(): Promise<Map<number, number>> {
     .groupBy(records.modeId);
   return new Map(rows.map((r) => [r.modeId, Number(r.n)]));
 }
+
+/** Categories a user logged in, most recent first (for "recently used" ordering). */
+export async function recentModeIds(userId: number): Promise<number[]> {
+  const rows = await db
+    .select({ modeId: records.modeId, at: sql<string>`max(${records.playedAt})` })
+    .from(records)
+    .innerJoin(recordParticipants, eq(recordParticipants.recordId, records.id))
+    .where(eq(recordParticipants.userId, userId))
+    .groupBy(records.modeId);
+  return rows.sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime()).map((r) => r.modeId);
+}
