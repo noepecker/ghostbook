@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Andrés · Records · Sports Page mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700..900&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Sofia+Sans+Condensed:wght@400..900&display=swap" rel="stylesheet">
+<style>
+/* Direction B · Sports Page
+   Reference: the pink sports daily (La Gazzetta dello Sport), agate box scores, standings.
+   Two inks only: black on pink newsprint. Meaning is typographic (bold, brackets, marks), never a colour. */
+:root{
+  --paper:#f5cec6; --paper2:#efc1b8; --ink:#1a1311; --ink2:#553f3a; --rule:#1a1311;
+  --head:'Big Shoulders Display',sans-serif; --text:'Newsreader',serif; --agate:'Sofia Sans Condensed',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--paper);color:var(--ink);-webkit-text-size-adjust:100%}
+body{font-family:var(--text);font-size:17px;line-height:1.45;font-optical-sizing:auto}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.t{font-family:var(--agate);font-variant-numeric:tabular-nums lining-nums;font-feature-settings:"tnum" 1,"lnum" 1}
+.page{max-width:1440px;margin:0 auto;padding:0 32px}
+
+/* ---------- masthead ---------- */
+.dateline{display:flex;justify-content:space-between;gap:16px;font-family:var(--agate);font-size:14px;font-weight:500;padding:10px 0 8px;border-bottom:1px solid var(--rule)}
+.lang button{background:none;border:0;cursor:pointer;font-weight:500;padding:0 2px;text-underline-offset:3px}
+.lang button[aria-pressed=true]{font-weight:800;text-decoration:underline}
+.mast{font-family:var(--head);font-weight:900;font-size:clamp(58px,15.2vw,236px);line-height:.8;letter-spacing:-.01em;padding:18px 0 10px;text-transform:uppercase;white-space:nowrap}
+.sections{display:flex;background:var(--ink);color:var(--paper);overflow-x:auto;scrollbar-width:none;margin:0 -32px;padding:0 32px}
+.sections a{font-family:var(--agate);font-weight:700;font-size:16px;padding:9px 16px 10px;text-decoration:none;white-space:nowrap;border-right:1px solid #4a3a36}
+.sections a:first-child{padding-left:0}
+.sections a:hover{text-decoration:underline}
+.sections a.file{margin-left:auto;background:var(--paper);color:var(--ink);border:0;padding-left:16px}
+
+section{padding:36px 0 44px;border-bottom:3px double var(--rule)}
+.slug{font-family:var(--agate);font-weight:800;font-size:15px;letter-spacing:.02em;border-top:3px solid var(--ink);padding-top:6px;margin-bottom:14px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 12px}
+.slug span:last-child{font-weight:500}
+h1,h2{font-family:var(--head);font-weight:900;line-height:.9;letter-spacing:-.005em}
+h1{font-size:clamp(48px,7vw,104px)}
+h2{font-size:clamp(40px,5.2vw,80px)}
+h3{font-family:var(--agate);font-weight:800;font-size:17px;border-bottom:1px solid var(--rule);padding-bottom:4px;margin-bottom:8px}
+.deck{font-size:clamp(19px,1.7vw,24px);line-height:1.3;margin:16px 0 22px;max-width:36ch}
+.by{font-family:var(--agate);font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:18px}
+
+/* ---------- grid with column rules ---------- */
+.front{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:0}
+.front > *:first-child{padding-right:32px;border-right:1px solid var(--rule)}
+.front > *:last-child{padding-left:32px}
+.leadtime{display:flex;align-items:flex-end;gap:18px 28px;flex-wrap:wrap;margin:6px 0 22px}
+.leadtime .n{font-weight:800;font-size:clamp(72px,9vw,136px);line-height:.8;letter-spacing:-.015em}
+.leadtime .facts{font-family:var(--agate);font-size:17px;line-height:1.25;border-left:1px solid var(--rule);padding-left:14px}
+.leadtime .facts b{font-weight:800}
+.story{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px}
+.cols p{margin-bottom:12px;hyphens:auto}
+.cols p:first-child::first-line{font-weight:600}
+
+/* halftone photo: grey, multiplied into the paper, then a dot screen */
+.photo{margin:0}
+.photo .ht{position:relative;display:block;background:var(--paper)}
+.photo svg.frame{display:block;width:100%;height:auto;filter:grayscale(1) contrast(1.15) brightness(1.25);mix-blend-mode:multiply}
+.photo svg.dots{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.photo figcaption{font-style:italic;font-size:14px;line-height:1.35;color:var(--ink2);padding-top:6px;border-bottom:1px solid var(--rule);padding-bottom:8px}
+.photo figcaption b{font-style:normal;font-family:var(--agate);font-weight:800;color:var(--ink)}
+.play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--ink);color:var(--paper);font-family:var(--agate);font-weight:800;font-size:14px;padding:6px 10px;text-decoration:none;display:flex;gap:8px;align-items:center}
+
+/* ---------- agate tables ---------- */
+.agate{width:100%;border-collapse:collapse;font-family:var(--agate);font-variant-numeric:tabular-nums;font-size:16px}
+.agate th{font-weight:800;font-size:13px;text-align:right;padding:4px 0 4px 10px;border-bottom:1px solid var(--rule)}
+.agate td{text-align:right;padding:5px 0 5px 10px;border-bottom:1px dotted var(--ink2)}
+.agate th:first-child,.agate td:first-child{text-align:left;padding-left:0}
+.agate td:first-child{font-weight:700}
+.agate tr:last-child td{border-bottom:0}
+.agate .b{font-weight:800}
+.agate .g{color:var(--ink2)}
+.agate tfoot td{border-top:1px solid var(--rule);border-bottom:0;font-weight:800}
+.agate a{text-decoration:none}
+.agate a:hover{text-decoration:underline}
+.foot{font-family:var(--agate);font-size:13.5px;color:var(--ink2);margin-top:6px;line-height:1.3}
+
+.results p{font-family:var(--agate);font-size:16px;line-height:1.3;padding:8px 0;border-bottom:1px dotted var(--ink2)}
+.results p b{font-weight:800}
+.results .r{font-weight:800;float:right;margin-left:10px}
+.results h3{margin-top:26px}
+.side h3:first-child{margin-top:0}
+
+/* ---------- track spread ---------- */
+.spread{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:0}
+.spread > *:first-child{padding-right:32px;border-right:1px solid var(--rule)}
+.spread > *:last-child{padding-left:32px}
+.cc{display:inline-flex;border:1.5px solid var(--ink);font-family:var(--agate);font-weight:800;font-size:15px;vertical-align:middle}
+.cc button{background:none;border:0;padding:4px 12px;cursor:pointer;font-weight:800}
+.cc button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+#chart svg{display:block;width:100%}
+.combo{font-family:var(--agate);font-size:17px;line-height:1.35}
+.combo b{font-weight:800}
+.spread .side > * + h3{margin-top:26px}
+
+/* ---------- zombies ---------- */
+.report{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:0}
+.report > *{padding:0 28px;border-right:1px solid var(--rule)}
+.report > *:first-child{padding-left:0}
+.report > *:last-child{padding-right:0;border-right:0}
+.bigr{font-family:var(--head);font-weight:900;font-size:clamp(120px,14vw,220px);line-height:.78;letter-spacing:-.02em}
+.bigr small{display:block;font-family:var(--agate);font-weight:800;font-size:16px;letter-spacing:.02em;line-height:1;margin-bottom:10px}
+.quote{font-size:24px;line-height:1.25;border-top:3px solid var(--ink);border-bottom:1px solid var(--rule);padding:14px 0 16px;margin:22px 0 0}
+.quote::before{content:"“";font-family:var(--head);font-weight:900;font-size:64px;line-height:.5;display:block;height:26px}
+.quote cite{display:block;font-style:normal;font-family:var(--agate);font-weight:700;font-size:14px;margin-top:10px}
+.twin{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ---------- file a result: a coupon ---------- */
+.filewrap{display:grid;grid-template-columns:420px minmax(0,1fr);gap:48px;align-items:start}
+.coupon{border:2px dashed var(--ink);padding:18px 18px 20px;background:var(--paper2);position:relative}
+.coupon .scis{position:absolute;top:-12px;left:18px;background:var(--paper);padding:0 6px}
+.coupon h2{font-size:48px;margin-bottom:4px}
+.coupon .sub{font-style:italic;font-size:15px;color:var(--ink2);margin-bottom:16px}
+.row{margin-bottom:16px}
+.lbl{display:block;font-family:var(--agate);font-weight:800;font-size:14px;margin-bottom:6px}
+.boxes{display:flex;flex-wrap:wrap;gap:6px 14px}
+.boxes button{background:none;border:0;display:inline-flex;align-items:center;gap:7px;font-family:var(--agate);font-weight:600;font-size:17px;min-height:40px;cursor:pointer;padding:0}
+.boxes button::before{content:"";width:18px;height:18px;border:1.5px solid var(--ink);flex:none}
+.boxes button[aria-pressed=true]{font-weight:800}
+.boxes button[aria-pressed=true]::before{background:var(--ink);box-shadow:inset 0 0 0 3px var(--paper2)}
+.line{width:100%;background:transparent;border:0;border-bottom:1.5px solid var(--ink);min-height:40px;font-size:18px;padding:4px 0}
+.line::placeholder{color:var(--ink2);font-style:italic}
+.timein{font-family:var(--agate);font-weight:800;font-size:76px;line-height:1;min-height:0;padding:0 0 2px;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.verdict{margin-top:10px;background:var(--ink);color:var(--paper);font-family:var(--agate);font-weight:800;font-size:18px;padding:7px 10px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.verdict small{font-weight:500;font-size:14px}
+.verdict.n{background:none;color:var(--ink);border:1.5px solid var(--ink)}
+.hint{font-size:14px;font-style:italic;color:var(--ink2);margin-top:5px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.three input{font-family:var(--agate);font-weight:700;font-size:20px}
+.attach{display:flex;gap:12px;align-items:center;width:100%;background:none;border:1.5px solid var(--ink);padding:10px 12px;min-height:56px;cursor:pointer;text-align:left}
+.attach b{display:block;font-family:var(--agate);font-weight:800;font-size:17px}
+.attach span span{font-size:14px;color:var(--ink2);font-style:italic}
+.send{width:100%;min-height:56px;background:var(--ink);color:var(--paper);border:0;font-family:var(--agate);font-weight:800;font-size:20px;display:flex;justify-content:space-between;align-items:center;padding:0 16px;cursor:pointer;margin-top:4px}
+.proofread{max-width:60ch}
+.proofread .galley{border-top:3px solid var(--ink);padding-top:10px}
+.proofread .galley p{font-family:var(--agate);font-size:17px;line-height:1.3;padding:8px 0;border-bottom:1px dotted var(--ink2)}
+.proofread .note{font-style:italic;color:var(--ink2);margin-top:14px;font-size:16px}
+
+.filebar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:6;height:56px;background:var(--ink);color:var(--paper);font-family:var(--agate);font-weight:800;font-size:19px;align-items:center;justify-content:space-between;padding:0 16px;text-decoration:none}
+.filebar span{font-weight:500;font-size:15px}
+
+@media (max-width:1100px){
+  .front,.spread{grid-template-columns:1fr}
+  .front > *:first-child,.spread > *:first-child{padding-right:0;border-right:0;padding-bottom:28px;border-bottom:1px solid var(--rule);margin-bottom:24px}
+  .front > *:last-child,.spread > *:last-child{padding-left:0}
+  .report{grid-template-columns:1fr 1fr}
+  .report > *:nth-child(2){border-right:0;padding-right:0}
+  .report > *:last-child{grid-column:1/-1;padding:24px 0 0;margin-top:24px;border-top:1px solid var(--rule)}
+  .filewrap{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  body{font-size:16px;padding-bottom:56px}
+  .page{padding:0 16px}
+  .sections{margin:0 -16px;padding:0 16px}
+  .sections a.file{display:none}
+  .filebar{display:flex}
+  .dateline .ed{display:none}
+  .story{grid-template-columns:1fr}
+  .report{grid-template-columns:1fr}
+  .report > *{padding:0!important;border-right:0!important}
+  .report > * + *{margin-top:24px;padding-top:20px!important;border-top:1px solid var(--rule)}
+  .report > *:last-child{margin-top:24px}
+  .leadtime .facts{border-left:0;padding-left:0;border-top:1px solid var(--rule);padding-top:8px;width:100%}
+  .coupon{margin:0 -6px}
+  .timein{font-size:68px}
+  .hide-s{display:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="screen" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="2" cy="2" r=".9" fill="#f5cec6"/></pattern>
+    <symbol id="f-cc" viewBox="0 0 320 180">
+      <rect width="320" height="180" fill="#9aa3b8"/><rect width="320" height="70" fill="#c8cfdc"/>
+      <path d="M0 70h22v-26h14v-14h10v40h18v-52h16v52h12v-30h20v30h26v-44h12v-10h8v54h20v-36h18v36h14v-20h22v20h30v-48h16v48h26v-24h16v24" fill="#5a6273"/>
+      <path d="M118 180L150 70h20l32 110z" fill="#3f434d"/><path d="M158 180l1.5-110h1l1.5 110z" fill="#e8e6dc"/>
+      <path d="M0 180l120-70v70zM320 180L200 110v70z" fill="#737b8d"/>
+      <rect x="126" y="128" width="68" height="22" fill="#3a1a18"/><rect x="146" y="118" width="28" height="12" fill="#6b5320"/>
+      <rect x="196" y="12" width="112" height="30" fill="#111"/>
+      <text x="302" y="34" text-anchor="end" font-family="Sofia Sans Condensed" font-weight="800" font-size="23" fill="#fff" style="font-variant-numeric:tabular-nums">2:05.917</text>
+    </symbol>
+    <symbol id="f-z1" viewBox="0 0 320 180">
+      <rect width="320" height="180" fill="#a39a92"/><rect x="16" y="16" width="288" height="148" fill="#2a2522"/>
+      <text x="30" y="42" font-family="Sofia Sans Condensed" font-weight="800" font-size="17" fill="#fff">ROUND 34</text>
+      <g font-family="Sofia Sans Condensed" font-size="14" fill="#e4dcd2" style="font-variant-numeric:tabular-nums">
+        <text x="30" y="72">Javi</text><text x="290" y="72" text-anchor="end">1402</text>
+        <text x="30" y="94">Lucía</text><text x="290" y="94" text-anchor="end">1251</text>
+        <text x="30" y="116">Andrés</text><text x="290" y="116" text-anchor="end">1184</text>
+        <text x="30" y="138">Pablo</text><text x="290" y="138" text-anchor="end">968</text></g>
+    </symbol>
+    <symbol id="f-z2" viewBox="0 0 320 180">
+      <rect width="320" height="180" fill="#8d8583"/><path d="M0 180L90 60h140l90 120z" fill="#3b3232"/>
+      <path d="M120 60l10-40h60l10 40z" fill="#5a4a4a"/><circle cx="160" cy="44" r="14" fill="#1c1414"/>
+      <path d="M40 150l40-22 18 30zM230 160l30-40 26 26z" fill="#211a1a"/>
+    </symbol>
+    <symbol id="g-clip" viewBox="0 0 24 24"><path d="M8 14V6a4 4 0 0 1 8 0v10a6 6 0 0 1-12 0V8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><path d="M12 8v8" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="g-scis" viewBox="0 0 28 16"><circle cx="5" cy="4" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="5" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 5.5L26 13M7.5 10.5L26 3" stroke="currentColor" stroke-width="1.6"/></symbol>
+  </defs>
+</svg>
+
+<div class="page">
+  <div class="dateline">
+    <span data-es="Lunes, 28 de septiembre de 2026">Monday, 28 September 2026</span>
+    <span class="ed" data-es="Número 214 · Contrarreloj, Lounge, Zombis">Issue 214 · Time Trials, Lounge, Zombies</span>
+    <span class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">English</button> · <button type="button" data-lang="es" aria-pressed="false">Español</button></span>
+  </div>
+  <div class="mast" aria-label="Ghostbook">Ghostbook</div>
+  <nav class="sections" aria-label="Sections">
+    <a href="#front" data-es="Portada">Front page</a>
+    <a href="#track">Crown City</a>
+    <a href="#zombies" data-es="Zombis">Zombies</a>
+    <a href="#file" class="file" data-es="Mandar un resultado">File a result</a>
+  </nav>
+
+<!-- ============ (a) FRONT PAGE ============ -->
+<section id="front">
+  <div class="front">
+    <article>
+      <div class="slug"><span data-es="Contrarreloj · 150cc">Time Trial · 150cc</span><span data-es="Domingo, 21:14">Sunday, 21:14</span></div>
+      <h1 data-es="Andrés baja de 2:06 en Crown City">Andrés breaks 2:06 on Crown City</h1>
+      <p class="deck" data-es="Andrés le quita 0.367 a su propia marca con Bowser en el Reel Racer. El récord del mundo de Lean, de junio, sigue a 2.507.">Andrés takes 0.367 off his own mark with Bowser on the Reel Racer. Lean's world record from June is still 2.507 away.</p>
+
+      <div class="leadtime">
+        <span class="n t">2:05.917</span>
+        <span class="facts t"><span data-es="Antes">Before</span> <b>2:06.284</b> <span data-es="(1 jun)">(1 Jun)</span><br>WR <b>2:03.410</b> Lean, DE<br><span data-es="Suma de mejores">Sum of best</span> <b>2:05.632</b></span>
+      </div>
+
+      <div class="story">
+        <figure class="photo">
+          <a class="ht" href="#" aria-label="Play the clip">
+            <svg class="frame" viewBox="0 0 320 180" role="img" aria-label="Clip frame: Crown City finish line, 2:05.917"><use href="#f-cc"/></svg>
+            <svg class="dots" aria-hidden="true"><rect width="100%" height="100%" fill="url(#screen)"/></svg>
+            <span class="play" data-es="Ver clip · 0:30">Play clip · 0:30</span>
+          </a>
+          <figcaption><b data-es="Prueba.">Proof.</b> <span data-es="La meta, del clip que Andrés mandó desde la Switch 2 a las 21:14.">The finish, from the clip Andrés sent from his Switch 2 at 21:14.</span></figcaption>
+        </figure>
+        <div>
+          <h3 data-es="Parciales">Splits</h3>
+          <table class="agate">
+            <thead><tr><th></th><th data-es="Andrés">Andrés</th><th>WR</th><th data-es="Dif.">Gap</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>53.402</td><td class="g">52.638</td><td>+0.764</td></tr>
+              <tr><td>2</td><td class="b">43.118</td><td class="g">42.461</td><td>+0.657</td></tr>
+              <tr><td>3</td><td>29.397</td><td class="g">28.311</td><td>+1.086</td></tr>
+            </tbody>
+            <tfoot><tr><td>Total</td><td>2:05.917</td><td class="g">2:03.410</td><td>+2.507</td></tr></tfoot>
+          </table>
+          <p class="foot" data-es="En negrita: iguala su mejor parcial. El tercero es donde más pierde: 1.086 en el tramo final.">Bold: equals his best split. The third is where the time goes: 1.086 lost in the last section.</p>
+        </div>
+      </div>
+    </article>
+
+    <aside class="side">
+      <h3 data-es="Clasificación · mejores marcas">Standings · personal bests</h3>
+      <table class="agate">
+        <thead><tr><th data-es="Circuito">Track</th><th>cc</th><th data-es="Tiempo">Time</th><th>WR</th></tr></thead>
+        <tbody>
+          <tr><td><a href="#track">Crown City</a></td><td>150</td><td class="b">2:05.917</td><td>+2.507</td></tr>
+          <tr><td><a href="#track">DK Spaceport</a></td><td>150</td><td>1:29.604</td><td>+0.984</td></tr>
+          <tr><td><a href="#track">Crown City</a></td><td>200</td><td>1:47.915</td><td class="g">n/a</td></tr>
+          <tr><td><a href="#track">Rainbow Road</a></td><td>150</td><td>3:56.771</td><td>+3.923</td></tr>
+          <tr><td><a href="#track">Peach Stadium</a></td><td>150</td><td>2:15.206</td><td>+1.424</td></tr>
+          <tr><td><a href="#track">Sky-High Sundae</a></td><td>150</td><td>1:54.390</td><td>+1.673</td></tr>
+        </tbody>
+      </table>
+      <p class="foot" data-es="Negrita: mejorado esta semana. WR según mkwrs.com a 28 sept. DK Spaceport: el parcial 3 (12.598) es más rápido que el del WR.">Bold: improved this week. WR as listed on mkwrs.com, 28 Sep. DK Spaceport: split 3 (12.598) is faster than the WR's.</p>
+
+      <div class="results">
+        <h3 data-es="Resultados">Results</h3>
+        <p><span class="r t" data-es="R34">R34</span><b data-es="Zombis.">Zombies.</b> <span data-es="Rex Infernus, Estándar. Andrés, Javi, Pablo, Lucía. 2:41:08. Sáb.">Rex Infernus, Standard. Andrés, Javi, Pablo, Lucía. 2:41:08. Sat.</span></p>
+        <p><span class="r t">+84</span><b>Lounge.</b> <span data-es="Mogi 2v2 de 12, con Javi. Segundos de 6 equipos. MMR 11&nbsp;240. Vie.">12P 2v2 mogi with Javi. 2nd of 6 teams. MMR 11&nbsp;240. Fri.</span></p>
+        <p><span class="r t">512–472</span><b data-es="Guerra.">War.</b> <span data-es="VTG gana a KNK, 6v6, 12 carreras. Mié.">VTG beat KNK, 6v6, 12 races. Wed.</span></p>
+        <p><span class="r t">1:12:47</span><b data-es="Zombis.">Zombies.</b> <span data-es="Ashes of the Damned, Maldito, misión principal. Andrés, Javi, Pablo. Sáb 19.">Ashes of the Damned, Cursed, main quest. Andrés, Javi, Pablo. Sat 19.</span></p>
+        <p><span class="r t" data-es="R31">R31</span><b data-es="Zombis.">Zombies.</b> <span data-es="Rex Infernus, Estándar. Andrés, Pablo, Lucía. Sáb 12.">Rex Infernus, Standard. Andrés, Pablo, Lucía. Sat 12.</span></p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ (b) TRACK ============ -->
+<section id="track">
+  <div class="slug"><span data-es="Contrarreloj · Mario Kart World">Time Trial · Mario Kart World</span>
+    <span class="cc" role="group" aria-label="Engine class"><button type="button" aria-pressed="true">150cc</button><button type="button" aria-pressed="false">200cc</button></span></div>
+  <div class="spread">
+    <div>
+      <h2 data-es="Crown City, quince meses después">Crown City, fifteen months on</h2>
+      <p class="deck" data-es="De 2:11.480 en julio de 2025 a 2:05.917 anoche: ocho mejoras, 5.563 en total. La más grande llegó en la primera quincena.">From 2:11.480 in July 2025 to 2:05.917 last night: eight improvements, 5.563 in all. The biggest came in the first fortnight.</p>
+      <div id="chart" role="img" aria-label="Step chart of the Crown City 150cc PB, July 2025 to September 2026, with the 2:03.410 world record as a dotted line"></div>
+    </div>
+    <div class="side">
+      <h3 data-es="Progresión">Progression</h3>
+      <table class="agate">
+        <thead><tr><th data-es="Fecha">Date</th><th data-es="Tiempo">Time</th><th data-es="Mejora">Gain</th><th class="hide-s" data-es="Prueba">Proof</th></tr></thead>
+        <tbody>
+          <tr><td data-es="27 sept 2026">27 Sep 2026</td><td class="b">2:05.917</td><td>−0.367</td><td class="hide-s" data-es="clip">clip</td></tr>
+          <tr><td data-es="1 jun 2026">1 Jun 2026</td><td>2:06.284</td><td>−0.519</td><td class="hide-s" data-es="clip">clip</td></tr>
+          <tr><td data-es="22 mar 2026">22 Mar 2026</td><td>2:06.803</td><td>−0.409</td><td class="hide-s" data-es="captura">shot</td></tr>
+          <tr><td data-es="6 ene 2026">6 Jan 2026</td><td>2:07.212</td><td>−0.528</td><td class="hide-s">–</td></tr>
+          <tr><td data-es="14 nov 2025">14 Nov 2025</td><td>2:07.740</td><td>−0.875</td><td class="hide-s" data-es="clip">clip</td></tr>
+          <tr><td data-es="30 ago 2025">30 Aug 2025</td><td>2:08.615</td><td>−1.287</td><td class="hide-s">–</td></tr>
+          <tr><td data-es="19 jul 2025">19 Jul 2025</td><td>2:09.902</td><td>−1.578</td><td class="hide-s">–</td></tr>
+          <tr><td data-es="2 jul 2025">2 Jul 2025</td><td>2:11.480</td><td class="g" data-es="primera">first</td><td class="hide-s">–</td></tr>
+        </tbody>
+      </table>
+
+      <h3 data-es="Combo y ruta">Combo and route</h3>
+      <p class="combo"><b>Bowser</b>, Reel Racer. <span data-es="Sin atajo, tres champiñones: 1-0-2.">Non-shortcut, three mushrooms: 1-0-2.</span></p>
+
+      <h3 data-es="Récord del mundo">World record</h3>
+      <p class="combo"><b class="t">2:03.410</b>, Lean (DE), <span data-es="14 de junio de 2026. Parciales 52.638, 42.461, 28.311. Fuente: mkwrs.com.">14 June 2026. Splits 52.638, 42.461, 28.311. Source: mkwrs.com.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ (c) ZOMBIES ============ -->
+<section id="zombies">
+  <div class="slug"><span data-es="BO7 Zombis · Estándar · 4 jugadores">BO7 Zombies · Standard · 4 players</span><span data-es="Sábado 26 sept, 21:03 a 23:44">Saturday 26 Sep, 21:03 to 23:44</span></div>
+  <h2 data-es="Ronda 34 en Rex Infernus, tres más que nunca">Round 34 on Rex Infernus, three past their best</h2>
+  <p class="deck" data-es="Los cuatro primos aguantan dos horas y cuarenta minutos. La War Mother y las arañas acaban con la partida a las 23:44.">The four cousins last two hours and forty minutes. The War Mother and a wave of spiders end it at 23:44.</p>
+  <div class="report">
+    <div>
+      <div class="bigr t"><small data-es="Ronda alcanzada">Round reached</small>34</div>
+      <p class="foot" style="margin-top:12px" data-es="Anterior mejor en el mapa: 31, el 12 sept (Andrés, Pablo, Lucía).">Previous best on the map: 31, on 12 Sep (Andrés, Pablo, Lucía).</p>
+      <blockquote class="quote"><span data-es="Las trampas del puente nos salvaron la 29. La próxima, el arco no lo lleva Pablo.">The bridge traps saved round 29. Next time Pablo doesn't get the bow.</span><cite data-es="Lucía, en la nota de la partida">Lucía, in the session note</cite></blockquote>
+    </div>
+    <div>
+      <h3 data-es="Escuadra">Squad</h3>
+      <table class="agate">
+        <thead><tr><th></th><th data-es="Bajas">Kills</th><th data-es="Caídas">Downs</th><th data-es="Reanim.">Revives</th></tr></thead>
+        <tbody>
+          <tr><td>Javi</td><td class="b">1 402</td><td>1</td><td>4</td></tr>
+          <tr><td>Lucía</td><td>1 251</td><td>3</td><td>5</td></tr>
+          <tr><td>Andrés</td><td>1 184</td><td>2</td><td>7</td></tr>
+          <tr><td>Pablo</td><td>968</td><td>4</td><td class="b">9</td></tr>
+        </tbody>
+        <tfoot><tr><td data-es="Escuadra">Squad</td><td>4 805</td><td>10</td><td>25</td></tr></tfoot>
+      </table>
+      <h3 style="margin-top:24px" data-es="Misión principal">Main quest</h3>
+      <p class="combo" data-es="No completada. Dos de las cuatro purificaciones de Shadowsmith hechas antes de la ronda 25.">Not finished. Two of the four Shadowsmith cleanses done before round 25.</p>
+      <h3 style="margin-top:24px" data-es="Récords de la escuadra">Squad records</h3>
+      <table class="agate">
+        <tbody>
+          <tr><td>Ashes of the Damned</td><td data-es="R41">R41</td></tr>
+          <tr><td>Rex Infernus</td><td class="b" data-es="R34">R34</td></tr>
+          <tr><td>Astra Malorum</td><td data-es="R28">R28</td></tr>
+          <tr><td data-es="Ashes, Maldito, misión">Ashes, Cursed, quest</td><td>1:12:47</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="twin">
+        <figure class="photo"><span class="ht"><svg class="frame" viewBox="0 0 320 180" role="img" aria-label="Screenshot: scoreboard at round 34"><use href="#f-z1"/></svg><svg class="dots" aria-hidden="true"><rect width="100%" height="100%" fill="url(#screen)"/></svg></span>
+          <figcaption data-es="El marcador, ronda 34.">The scoreboard, round 34.</figcaption></figure>
+        <figure class="photo"><a class="ht" href="#" aria-label="Play the clip"><svg class="frame" viewBox="0 0 320 180" role="img" aria-label="Clip frame: the War Mother"><use href="#f-z2"/></svg><svg class="dots" aria-hidden="true"><rect width="100%" height="100%" fill="url(#screen)"/></svg><span class="play">0:30</span></a>
+          <figcaption data-es="La War Mother, 23:44.">The War Mother, 23:44.</figcaption></figure>
+      </div>
+      <p class="foot" style="margin-top:10px" data-es="Prueba subida por Javi y Lucía desde el móvil.">Proof uploaded by Javi and Lucía from their phones.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ (d) FILE A RESULT ============ -->
+<section id="file">
+  <div class="filewrap">
+    <form class="coupon" onsubmit="return false">
+      <svg class="scis" width="34" height="18" aria-hidden="true"><use href="#g-scis"/></svg>
+      <h2 data-es="Manda un resultado">File a result</h2>
+      <p class="sub" data-es="Para rellenar nada más cruzar la meta.">For filling in straight after the finish line.</p>
+
+      <div class="row"><span class="lbl" data-es="Prueba">Event</span>
+        <div class="boxes" role="group">
+          <button type="button" aria-pressed="true" data-es="Contrarreloj">Time Trial</button>
+          <button type="button" aria-pressed="false">Lounge</button>
+          <button type="button" aria-pressed="false" data-es="Guerra">War</button>
+          <button type="button" aria-pressed="false" data-es="Zombis">Zombies</button>
+        </div></div>
+
+      <div class="row"><span class="lbl" data-es="Circuito (los últimos primero)">Track (latest first)</span>
+        <div class="boxes" id="tracks" role="group">
+          <button type="button" aria-pressed="true" data-pb150="2:05.917" data-pb200="1:47.915">Crown City</button>
+          <button type="button" aria-pressed="false" data-pb150="1:29.604" data-pb200="">DK Spaceport</button>
+          <button type="button" aria-pressed="false" data-pb150="3:56.771" data-pb200="">Rainbow Road</button>
+        </div>
+        <input class="line" type="search" placeholder="or type one: Peach Stadium, Sky-High…" data-es-ph="o escribe uno: Peach Stadium, Sky-High…" aria-label="Other track"></div>
+
+      <div class="row"><span class="lbl" data-es="Cilindrada">Class</span>
+        <div class="boxes" id="cc" role="group">
+          <button type="button" aria-pressed="false" data-cc="150">150cc</button>
+          <button type="button" aria-pressed="true" data-cc="200">200cc</button>
+        </div></div>
+
+      <div class="row"><label class="lbl" for="time" data-es="Tiempo">Time</label>
+        <input id="time" class="line timein" inputmode="numeric" autocomplete="off" value="1:47.382" placeholder="0:00.000">
+        <p class="hint" data-es="Solo cifras: 147382 se escribe 1:47.382.">Digits only: 147382 becomes 1:47.382.</p>
+        <div id="verdict" class="verdict"><span>New PB by 0.533</span><small>was 1:47.915</small></div></div>
+
+      <div class="row"><span class="lbl" data-es="Parciales, si los tienes">Splits, if you have them</span>
+        <div class="three">
+          <input class="line" inputmode="decimal" value="44.902" aria-label="Split 1">
+          <input class="line" inputmode="decimal" value="36.815" aria-label="Split 2">
+          <input class="line" inputmode="decimal" placeholder="25.665" aria-label="Split 3">
+        </div>
+        <p class="hint" data-es="El último sale solo: total menos los otros dos.">The last one works itself out: total minus the other two.</p></div>
+
+      <div class="row"><span class="lbl">Combo</span>
+        <input class="line" value="Bowser, Reel Racer" aria-label="Combo"></div>
+
+      <div class="row">
+        <button type="button" class="attach"><svg width="24" height="24" aria-hidden="true"><use href="#g-clip"/></svg>
+          <span><b data-es="Adjunta el clip o la captura">Attach the clip or a screenshot</b><span data-es="Switch 2: Álbum, Enviar al móvil, y elígelo aquí. Opcional.">Switch 2: Album, Send to Smartphone, then pick it here. Optional.</span></span></button></div>
+
+      <button type="submit" class="send"><span data-es="Mandar">Send it in</span><span class="t" id="sendt">1:47.382</span></button>
+    </form>
+
+    <div class="proofread">
+      <div class="slug"><span data-es="Así sale en Resultados">How it prints in Results</span><span data-es="vista previa">preview</span></div>
+      <div class="galley results">
+        <p><span class="r t" id="galt">1:47.382</span><b data-es="Contrarreloj.">Time Trial.</b> <span id="galx">Crown City, 200cc. New PB by 0.533. Bowser, Reel Racer. Today.</span></p>
+      </div>
+      <p class="note" data-es="No hay WR de 200cc guardado para Crown City, así que la línea no inventa una diferencia.">There's no 200cc WR on file for Crown City, so the line doesn't make up a gap.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<a class="filebar" href="#file"><span data-es="Crown City · 200cc">Crown City · 200cc</span><b data-es="Mandar un resultado">File a result</b></a>
+
+<script>
+let LANG='en';
+function setLang(l){
+  LANG=l; document.documentElement.lang=l;
+  document.querySelectorAll('[data-es]').forEach(el=>{ if(el.dataset.en===undefined) el.dataset.en=el.textContent; el.textContent=l==='es'?el.dataset.es:el.dataset.en; });
+  document.querySelectorAll('[data-es-ph]').forEach(el=>{ if(el.dataset.enPh===undefined) el.dataset.enPh=el.placeholder; el.placeholder=l==='es'?el.dataset.esPh:el.dataset.enPh; });
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===l));
+  update(); drawChart();
+}
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+document.querySelectorAll('.boxes, .cc').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return; g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b)); update();}));
+
+const toMs=s=>{const m=s.match(/^(\d+):(\d{2})\.(\d{3})$/);return m?(+m[1]*60000+ +m[2]*1000+ +m[3]):null};
+const fmt=ms=>{const m=Math.floor(ms/60000),s=Math.floor(ms%60000/1000),x=ms%1000;return `${m}:${String(s).padStart(2,'0')}.${String(x).padStart(3,'0')}`};
+const time=document.getElementById('time');
+time.addEventListener('input',()=>{const d=time.value.replace(/\D/g,'').slice(-7); if(!d){time.value='';update();return} const p=d.padStart(6,'0'); time.value=`${+p.slice(0,-5)}:${p.slice(-5,-3)}.${p.slice(-3)}`; update();});
+function update(){
+  const v=document.getElementById('verdict'); const trkB=document.querySelector('#tracks [aria-pressed=true]');
+  const cc=document.querySelector('#cc [aria-pressed=true]').dataset.cc; const pb=trkB.dataset['pb'+cc]; const t=toMs(time.value); const es=LANG==='es';
+  document.getElementById('sendt').textContent=time.value||'–'; document.getElementById('galt').textContent=time.value||'–';
+  let line;
+  if(!pb||t===null){ v.className='verdict n'; v.innerHTML=`<span>${!pb?(es?'Primer tiempo aquí':'First time here'):(es?'Tiempo incompleto':'Time not finished')}</span><small></small>`; line=es?'Primer tiempo':'First time'; }
+  else{ const d=t-toMs(pb), a=(Math.abs(d)/1000).toFixed(3);
+    if(d<0){ v.className='verdict'; v.innerHTML=`<span>${es?'Nuevo PB por '+a:'New PB by '+a}</span><small>${es?'antes':'was'} ${pb}</small>`; line=es?`Nuevo PB por ${a}`:`New PB by ${a}`; }
+    else { v.className='verdict n'; v.innerHTML=`<span>${es?a+' más lento que el PB':a+' off the PB'}</span><small>PB ${pb}</small>`; line=es?`A ${a} del PB`:`${a} off the PB`; } }
+  document.getElementById('galx').textContent=`${trkB.textContent}, ${cc}cc. ${line}. Bowser, Reel Racer. ${es?'Hoy':'Today'}.`;
+}
+
+/* PB history: ink-only step chart with written annotations, like a printed graphic */
+const PB=[['2025-07-02',131480],['2025-07-19',129902],['2025-08-30',128615],['2025-11-14',127740],['2026-01-06',127212],['2026-03-22',126803],['2026-06-01',126284],['2026-09-27',125917]];
+const WR=123410,T0=Date.parse('2025-07-01'),T1=Date.parse('2026-09-28');
+const MON={en:['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'],es:['jul','ago','sep','oct','nov','dic','ene','feb','mar','abr','may','jun','jul','ago','sep']};
+function drawChart(){
+  const host=document.getElementById('chart'); if(!host) return;
+  const W=host.clientWidth, narrow=W<520, H=narrow?300:400, L=narrow?44:56, R=12, Tp=24, B=34;
+  const x=t=>L+(t-T0)/(T1-T0)*(W-L-R), lo=WR-700, hi=132900, y=v=>H-B-(hi-v)/(hi-lo)*(H-Tp-B);
+  const ink='#1a1311', ink2='#553f3a'; let g='';
+  // faster is up: the axis says so in words
+  for(let v=124000;v<=132000;v+=2000){ g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${ink2}" stroke-width=".6" stroke-dasharray="1 3"/><text x="${L-8}" y="${y(v)+5}" text-anchor="end" font-size="14" fill="${ink}">${fmt(v).slice(0,4)}</text>`; }
+  const mo=MON[LANG]; for(let i=0;i<15;i+=narrow?3:1){ const xx=x(+new Date(Date.UTC(2025,6+i,1))); g+=`<line x1="${xx}" x2="${xx}" y1="${H-B}" y2="${H-B+5}" stroke="${ink}"/><text x="${xx}" y="${H-B+20}" text-anchor="middle" font-size="14" fill="${ink}">${mo[i]}</text>`; }
+  g+=`<text x="${L}" y="${H-2}" font-size="13" fill="${ink2}">2025</text><text x="${x(Date.UTC(2026,0,1))}" y="${H-2}" font-size="13" fill="${ink2}">2026</text>`;
+  g+=`<line x1="${L}" x2="${W-R}" y1="${H-B}" y2="${H-B}" stroke="${ink}" stroke-width="1.2"/>`;
+  g+=`<line x1="${L}" x2="${W-R}" y1="${y(WR)}" y2="${y(WR)}" stroke="${ink}" stroke-width="2" stroke-dasharray="2 4" stroke-linecap="round"/>`;
+  g+=`<text x="${W-R}" y="${y(WR)-9}" text-anchor="end" font-size="15" font-weight="800" fill="${ink}">${LANG==='es'?'Récord del mundo':'World record'} 2:03.410</text>`;
+  let d=`M${x(Date.parse(PB[0][0]))} ${y(PB[0][1])}`; for(let i=1;i<PB.length;i++){ d+=` H${x(Date.parse(PB[i][0]))} V${y(PB[i][1])}`; } d+=` H${x(T1)}`;
+  g+=`<path d="${d}" fill="none" stroke="${ink}" stroke-width="3"/>`;
+  PB.forEach(([t,v],i)=>{ const last=i===PB.length-1; g+=`<circle cx="${x(Date.parse(t))}" cy="${y(v)}" r="${last?6:3.5}" fill="${last?ink:'#f5cec6'}" stroke="${ink}" stroke-width="2"/>`; });
+  const a=(t,v,dx,dy,txt,anchor='start')=>`<text x="${x(Date.parse(t))+dx}" y="${y(v)+dy}" text-anchor="${anchor}" font-family="Newsreader" font-style="italic" font-size="${narrow?14:16}" fill="${ink}">${txt}</text>`;
+  g+=a('2025-07-02',131480,8,24,'2:11.480');
+  g+=a('2025-07-19',129902,10,24,LANG==='es'?'−1.578 en la primera quincena':'−1.578 in the first fortnight');
+  g+=`<text x="${x(T1)-10}" y="${y(125917)-14}" text-anchor="end" font-size="${narrow?20:26}" font-weight="800" fill="${ink}">2:05.917</text>`;
+  if(!narrow) g+=a('2026-09-20',126284,0,26,LANG==='es'?'Cuatro meses parado en 2:06.284':'Four months stuck on 2:06.284','end');
+  host.innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="Sofia Sans Condensed" style="font-variant-numeric:tabular-nums">${g}</svg>`;
+}
+addEventListener('resize',drawChart); document.fonts.ready.then(drawChart); drawChart(); update();
+</script>
+</body>
+</html>

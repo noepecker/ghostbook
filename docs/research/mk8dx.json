@@ -1,0 +1,66 @@
+{
+  "game": "Mario Kart 8 Deluxe",
+  "platform": "Nintendo Switch / Nintendo Switch 2",
+  "data_as_of": "2026-09-28",
+  "current_version": "4.0.0",
+  "current_version_release_date": "2026-09-01",
+  "sources": [
+    "https://www.mariowiki.com/Mario_Kart_8_Deluxe_%E2%80%93_Booster_Course_Pass",
+    "https://www.nintendolife.com/news/2026/09/mario-kart-8-deluxe-has-been-updated-to-version-4-0-0-here-are-the-full-patch-notes",
+    "https://www.gematsu.com/2026/09/mario-kart-8-deluxe-version-4-0-0-update-now-available-adds-switch-2-enhancements",
+    "https://lounge.mkcentral.com/mk8dx"
+  ],
+  "notes_unverified": [
+    "Full combo-part catalogue (every body/tires/glider/character with individual stat values) not enumerated here — too large for this pass; only category structure captured. Would need a dedicated fetch of a stats site (e.g. mk8dx-lounge.com or a dedicated MK8DX stats wiki page) to fill in.",
+    "v4.0.0 change list captured from patch-note aggregator articles, not Nintendo's own official patch notes page verbatim; cross-check against nintendo.com support page before treating as exhaustive."
+  ],
+  "v4_0_0_changes": {
+    "release_date": "2026-09-01/02",
+    "headline": "Switch 2 enhancement update (free), not a paid Switch 2 Edition",
+    "switch2_only": [
+      "Higher-resolution display support for Switch 2 / high-res TVs",
+      "Shortened pre-race/battle loading times",
+      "Local multiplayer expanded from 1-4 to 5-8 players (needs at least one Joy-Con 2 or Switch 2 Pro Controller for 8-player)",
+      "CameraPlay support (USB camera for local multiplayer face-cam, and via GameChat online with Switch Online)"
+    ],
+    "all_platforms": [
+      "New '96 Races' VS Race mode for Booster Course Pass owners: races through all 96 tracks in a single marathon session (previous VS Race cap was 48 races in a row)",
+      "Speed increase on original Switch hardware (~1 coin's worth of extra speed)",
+      "Driving speed / Boo item adjustments, including an off-road improvement for Boo"
+    ],
+    "verified": false
+  },
+  "track_count_total": 96,
+  "cup_count_total": 24,
+  "cc_classes": ["50cc", "100cc", "150cc", "Mirror", "200cc"],
+  "base_game_cups": [
+    {"cup": "Mushroom Cup", "type": "Nitro", "tracks": ["Mario Kart Stadium", "Water Park", "Sweet Sweet Canyon", "Thwomp Ruins"]},
+    {"cup": "Flower Cup", "type": "Nitro", "tracks": ["Mario Circuit", "Toad Harbor", "Twisted Mansion", "Shy Guy Falls"]},
+    {"cup": "Star Cup", "type": "Nitro", "tracks": ["Sunshine Airport", "Dolphin Shoals", "Electrodrome", "Mount Wario"]},
+    {"cup": "Special Cup", "type": "Nitro", "tracks": ["Cloudtop Cruise", "Bone-Dry Dunes", "Bowser's Castle", "Rainbow Road"]},
+    {"cup": "Shell Cup", "type": "Retro", "tracks": ["Moo Moo Meadows (Wii)", "Mario Circuit (GBA)", "Cheep Cheep Beach (DS)", "Toad's Turnpike (N64)"]},
+    {"cup": "Banana Cup", "type": "Retro", "tracks": ["Dry Dry Desert (GCN)", "Donut Plains 3 (SNES)", "Royal Raceway (N64)", "DK Jungle (3DS)"]},
+    {"cup": "Leaf Cup", "type": "Retro", "tracks": ["Wario Stadium (DS)", "Sherbet Land (GCN)", "Music Park (3DS)", "Yoshi Valley (N64)"]},
+    {"cup": "Lightning Cup", "type": "Retro", "tracks": ["Tick-Tock Clock (3DS)", "Piranha Plant Slide (3DS)", "Grumble Volcano (Wii)", "Rainbow Road (Wii)"]}
+  ],
+  "booster_course_pass_cups": [
+    {"wave": 1, "cup": "Golden Dash Cup", "release": "2022-03", "tracks": ["Paris Promenade (Tour)", "Toad Circuit (3DS)", "Choco Mountain (N64)", "Coconut Mall (Wii)"]},
+    {"wave": 1, "cup": "Lucky Cat Cup", "release": "2022-03", "tracks": ["Tokyo Blur (Tour)", "Shroom Ridge (DS)", "Sky Garden (GBA)", "Ninja Hideaway (Tour)"]},
+    {"wave": 2, "cup": "Turnip Cup", "release": "2022-08", "tracks": ["New York Minute (Tour)", "Mario Circuit 3 (SNES)", "Kalimari Desert (N64)", "Waluigi Pinball (DS)"]},
+    {"wave": 2, "cup": "Propeller Cup", "release": "2022-08", "tracks": ["Sydney Sprint (Tour)", "Snow Land (GBA)", "Mushroom Gorge (Wii)", "Sky-High Sundae (new)"]},
+    {"wave": 3, "cup": "Rock Cup", "release": "2022-12", "tracks": ["London Loop (Tour)", "Boo Lake (GBA)", "Rock Rock Mountain (3DS)", "Maple Treeway (Wii)"]},
+    {"wave": 3, "cup": "Moon Cup", "release": "2022-12", "tracks": ["Berlin Byways (Tour)", "Peach Gardens (DS)", "Merry Mountain (Tour)", "Rainbow Road (3DS)"]},
+    {"wave": 4, "cup": "Fruit Cup", "release": "2023-03", "tracks": ["Amsterdam Drift (Tour)", "Riverside Park (GBA)", "DK Summit (Wii)", "Yoshi's Island (new)"]},
+    {"wave": 4, "cup": "Boomerang Cup", "release": "2023-03", "tracks": ["Bangkok Rush (Tour)", "Mario Circuit (DS)", "Waluigi Stadium (GCN)", "Singapore Speedway (Tour)"]},
+    {"wave": 5, "cup": "Feather Cup", "release": "2023-07", "tracks": ["Athens Dash (Tour)", "Daisy Cruiser (GCN)", "Moonview Highway (Wii)", "Squeaky Clean Sprint (new)"]},
+    {"wave": 5, "cup": "Cherry Cup", "release": "2023-07", "tracks": ["Los Angeles Laps (Tour)", "Sunset Wilds (GBA)", "Koopa Cape (Wii)", "Vancouver Velocity (Tour)"]},
+    {"wave": 6, "cup": "Acorn Cup", "release": "2023-11", "tracks": ["Rome Avanti (Tour)", "DK Mountain (GCN)", "Daisy Circuit (Wii)", "Piranha Plant Cove (Tour)"]},
+    {"wave": 6, "cup": "Spiny Cup", "release": "2023-11", "tracks": ["Madrid Drive (Tour)", "Rosalina's Ice World (3DS)", "Bowser Castle 3 (SNES)", "Rainbow Road (Wii)"]}
+  ],
+  "combo_part_categories": {
+    "description": "Every driver in MK8DX has base stats; equipping a Body (kart/bike), Tires, and Glider modifies six stat axes: Speed (Ground/Water/Air/Anti-Gravity), Acceleration, Weight, Handling (Ground/Water/Air/Anti-Gravity), Traction, and Mini-Turbo.",
+    "part_slots": ["Character (incl. size class: small/medium/large/heavy)", "Body (kart or bike frame)", "Tires", "Glider"],
+    "note": "Full enumerated stat tables for all characters/bodies/tires/gliders not captured in this pass due to size; competitive players typically reference a small set of 'meta' combos (e.g. heavyweight + Roller/Slim tires + high-speed body) rather than the full matrix. Recommend a follow-up fetch of a dedicated stats resource if the records app needs exact stat numbers.",
+    "verified": false
+  }
+}
