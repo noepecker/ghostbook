@@ -5,6 +5,10 @@ import { seed } from "../src/lib/seed";
 import { catalogItems, games, modes, worldRecords } from "../src/lib/db/schema";
 
 async function main() {
+  if (process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production") {
+    console.log(`seed: skipped on a ${process.env.VERCEL_ENV} build; previews share the production database.`);
+    return;
+  }
   if (process.env.VERCEL && !process.env.DATABASE_URL) {
     console.log("seed: on Vercel without DATABASE_URL, skipping.");
     return;
