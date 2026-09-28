@@ -67,7 +67,9 @@ Environment variables:
 | `CRON_SECRET` | Random string. Vercel Cron sends it as `Authorization: Bearer …` to `/api/cron/wr` |
 | `BLOB_READ_WRITE_TOKEN` | Private Blob store `ghostbook-proofs` (already linked) |
 
-Deploying runs `vercel-build`: migrations, the idempotent seed, then `next build`. Without
+Deploying runs `vercel-build`: migrations, the idempotent seed, the demo history (preview only,
+with `DEMO_PASSWORD`; never on production), then `next build`. Production and Preview have
+separate Neon databases and Blob stores. Without
 `DATABASE_URL` the migrate and seed steps skip themselves. After the first deploy with Neon, create
 the first account from your machine:
 

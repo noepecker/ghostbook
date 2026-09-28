@@ -12,7 +12,17 @@ import { boardKeyOf, validateValues, type ModeTemplate } from "../src/lib/templa
 const MARK = "demo-history";
 
 async function main() {
-  if (process.env.DATABASE_URL) throw new Error("db:demo is for the local PGlite database only.");
+  const env = process.env.VERCEL_ENV;
+  if (env === "production") {
+    console.log("demo: never on production.");
+    return;
+  }
+  // On Vercel, only the preview-only database gets demo data, and only with a real password.
+  if (env === "preview" && !process.env.DEMO_PASSWORD) {
+    console.log("demo: skipped on preview, DEMO_PASSWORD is not set.");
+    return;
+  }
+  if (process.env.DATABASE_URL && env !== "preview") throw new Error("db:demo is for the local PGlite database or the preview database only.");
   const db = createDb();
   await runMigrations(db);
   await seed(db);

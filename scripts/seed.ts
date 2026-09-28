@@ -5,8 +5,9 @@ import { seed } from "../src/lib/seed";
 import { catalogItems, games, modes, worldRecords } from "../src/lib/db/schema";
 
 async function main() {
-  if (process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production") {
-    console.log(`seed: skipped on a ${process.env.VERCEL_ENV} build; previews share the production database.`);
+  // Production and Preview each have their own Neon database (preview-only: ghostbook-preview-db).
+  if (process.env.VERCEL_ENV && !["production", "preview"].includes(process.env.VERCEL_ENV)) {
+    console.log(`seed: skipped on a ${process.env.VERCEL_ENV} build.`);
     return;
   }
   if (process.env.VERCEL && !process.env.DATABASE_URL) {

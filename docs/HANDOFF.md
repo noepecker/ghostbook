@@ -10,8 +10,8 @@ about access, workflow and what is left.
 | Code | `github.com/noepecker/ghostbook` (public repo; you're a collaborator) |
 | App | https://ghostbook-gg.vercel.app (`ghostbook.vercel.app` belongs to somebody else) |
 | Hosting | Vercel project `ghostbook` in Noé's Hobby account (`noepas`) |
-| Database | Neon Postgres `ghostbook-db`, connected to the Vercel project |
-| Proof files | Vercel Blob store `ghostbook-proofs` (private; served through signed URLs) |
+| Database | Neon Postgres `ghostbook-db` (production) and `ghostbook-preview-db` (previews) |
+| Proof files | Vercel Blob `ghostbook-proofs` (production) and `ghostbook-proofs-preview`; private, signed URLs |
 | World records | scraped from mkwrs.com daily at 04:00 UTC (`vercel.json`) and with **Refresh WRs** |
 
 The repo is public so that Vercel's free plan deploys your commits too (on Hobby, private repos
@@ -42,13 +42,15 @@ Before a PR: `npm test && npm run typecheck && npm run lint && npm run build`.
 
 ## Things that can bite
 
-- **Previews use the production database.** Vercel gives preview deployments the same
-  `DATABASE_URL`. Don't log test records on a preview URL, and never ship a migration that drops
-  or renames a column in use. A safer setup is Neon branching per preview (Neon integration
-  settings in Vercel) — see the issue.
-- **Migrations and the seed run only on production builds** (`VERCEL_ENV=production`), inside
-  `vercel-build`. Migrations must be additive; the seed must stay idempotent (it upserts by slug,
-  keeps ids).
+- **Previews have their own database and proof store.** Preview deployments use the Neon
+  database `ghostbook-preview-db` and the Blob store `ghostbook-proofs-preview`, never the
+  production ones. Every preview build migrates, seeds and (once) loads the demo history into it;
+  log in there as `andres`, `javi`, `lucia` or `pablo` with the preview password Noé gives you.
+  All previews share that one database, so two open PRs with different migrations can collide:
+  merge one before testing the other.
+- **Migrations run on production builds too** (inside `vercel-build`). They must be additive —
+  never drop or rename a column the running version uses; the seed must stay idempotent (it
+  upserts by slug, keeps ids).
 - **mkwrs.com has no API.** The scrapers in `src/lib/wr/` parse its HTML tables; if the site
   changes layout the refresh reports 0 updates. Tests run against saved copies in the test
   fixtures, so a change on the site won't make them fail: check the refresh after deploys.
