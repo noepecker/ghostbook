@@ -3,8 +3,9 @@ import { createDb } from "../src/lib/db/client";
 import { runMigrations } from "../src/lib/db/migrate";
 
 async function main() {
-  if (process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production") {
-    console.log(`migrate: skipped on a ${process.env.VERCEL_ENV} build; previews share the production database.`);
+  // Production and Preview each have their own Neon database (preview-only: ghostbook-preview-db).
+  if (process.env.VERCEL_ENV && !["production", "preview"].includes(process.env.VERCEL_ENV)) {
+    console.log(`migrate: skipped on a ${process.env.VERCEL_ENV} build.`);
     return;
   }
   if (process.env.VERCEL && !process.env.DATABASE_URL) {
