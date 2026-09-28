@@ -6,6 +6,7 @@ and any other game you add from the web. Every record can carry proof (screensho
 - Spec and decisions: [`docs/SPEC.md`](docs/SPEC.md)
 - Game research (tracks, maps, modes, record categories): [`docs/research/`](docs/research/)
 - Design: [`docs/mockups/timing-tower/`](docs/mockups/timing-tower/) is the chosen direction
+- Picking this up? Start with [`docs/HANDOFF.md`](docs/HANDOFF.md)
 
 Next.js 15 (App Router) · TypeScript · Drizzle on Postgres (Neon in production, PGlite locally) ·
 Vercel Blob (private store) for proof · plain CSS, Archivo via `next/font`.
