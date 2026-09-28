@@ -2,7 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { addCatalogItem, createRecord } from "@/actions/records";
+import Link from "next/link";
+import { addCatalogItem, createRecord, updateRecord } from "@/actions/records";
+import { toLocalInput, valuesToRaw } from "@/lib/edit";
 import { fmtDate, makeT, type Lang } from "@/lib/i18n/dict";
 import { gap, splitStates, type SplitState } from "@/lib/pb";
 import {
@@ -17,7 +19,7 @@ import {
   type Values,
 } from "@/lib/template";
 import { digitsToTime, formatDelta, formatInt, formatNumberDelta, formatSplit, formatTime, parseTime } from "@/lib/time";
-import { uploadProof, type PendingFile } from "@/lib/upload-client";
+import { fileSize, uploadProof, type PendingFile } from "@/lib/upload-client";
 import { Glyphs } from "./Bits";
 import { ProofPicker } from "./ProofPicker";
 
@@ -38,6 +40,16 @@ export interface LogUser {
   id: number;
   code: string;
   displayName: string;
+}
+/** A stored record to edit instead of logging a new one. */
+export interface EditSeed {
+  recordId: number;
+  modeId: number;
+  values: Values;
+  parts: Part[];
+  playedAt: string;
+  notes: string;
+  proofs: { id: number; kind: "image" | "video"; name: string; size: number; durationMs: number | null }[];
 }
 export interface BoardRef {
   score: number;
@@ -62,10 +74,11 @@ interface Props {
   recent: Record<string, number[]>;
   initialModeId: number | null;
   initialKey: string | null;
+  edit?: EditSeed;
 }
 
 type Raw = Record<string, string | boolean | string[]>;
-interface Part {
+export interface Part {
   userId: number | null;
   guestName: string | null;
   stats: Record<string, string>;
@@ -89,25 +102,27 @@ export function LogForm(props: Props) {
   const t = makeT(lang);
   const router = useRouter();
   const [catalogs, setCatalogs] = useState(props.catalogs);
-  const [modeId, setModeId] = useState<number | null>(props.initialModeId ?? modes[0]?.id ?? null);
+  const editing = props.edit ?? null;
+  const [modeId, setModeId] = useState<number | null>(editing?.modeId ?? props.initialModeId ?? modes[0]?.id ?? null);
   const mode = modes.find((m) => m.id === modeId) ?? null;
   const tpl = mode?.template ?? null;
-  const [raw, setRaw] = useState<Raw>({});
-  const [parts, setParts] = useState<Part[]>([{ userId: meId, guestName: null, stats: {} }]);
-  const [playedAt, setPlayedAt] = useState(localNow);
-  const [notes, setNotes] = useState("");
+  const [raw, setRaw] = useState<Raw>(() => (editing && tpl ? valuesToRaw(tpl, editing.values) : {}));
+  const [parts, setParts] = useState<Part[]>(() => editing?.parts ?? [{ userId: meId, guestName: null, stats: {} }]);
+  const [playedAt, setPlayedAt] = useState(() => (editing ? toLocalInput(editing.playedAt) : localNow()));
+  const [notes, setNotes] = useState(editing?.notes ?? "");
+  const [dropProofs, setDropProofs] = useState<number[]>([]);
   const [files, setFiles] = useState<PendingFile[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
-  const [comboOpen, setComboOpen] = useState(false);
+  const [comboOpen, setComboOpen] = useState(!!editing);
   const [guest, setGuest] = useState("");
 
   const ctxCatalogs = useMemo(() => Object.fromEntries(Object.entries(catalogs).map(([k, c]) => [k, c.items])), [catalogs]);
 
   // restore the last combo for this category (or apply the board we came from)
   useEffect(() => {
-    if (!tpl || !mode) return;
+    if (!tpl || !mode || editing) return;
     const next: Raw = {};
     for (const f of tpl.fields) {
       if (f.type === "choice" && f.default !== undefined) {
@@ -228,25 +243,29 @@ export function LogForm(props: Props) {
       if (f.type === "splits") values[f.key] = Array.isArray(v) ? v.slice(0, nSplits) : [];
       else if (v !== undefined) values[f.key] = v;
     }
-    const res = await createRecord({
+    const input = {
       modeId: mode.id,
       values,
       participants: playersF ? parts : [{ userId: meId }],
       playedAt: new Date(playedAt).toISOString(),
       notes,
-    });
+    };
+    const res = editing ? await updateRecord(editing.recordId, { ...input, removeProofIds: dropProofs }) : await createRecord(input);
     if (!res.ok) {
       setErrors(res.errors);
       setSaving(false);
       window.scrollTo({ top: 0 });
       return;
     }
-    try {
-      const mem: Raw = {};
-      for (const f of tpl.fields) if ((f.type === "choice" || f.type === "boolean") && raw[f.key] !== undefined) mem[f.key] = raw[f.key];
-      localStorage.setItem(MEMORY(mode.id), JSON.stringify({ values: mem, parts: parts.map((p) => ({ userId: p.userId, guestName: p.guestName })) }));
-    } catch {
-      /* private mode */
+    // an edit isn't "the last combo I used", so it leaves the memory alone
+    if (!editing) {
+      try {
+        const mem: Raw = {};
+        for (const f of tpl.fields) if ((f.type === "choice" || f.type === "boolean") && raw[f.key] !== undefined) mem[f.key] = raw[f.key];
+        localStorage.setItem(MEMORY(mode.id), JSON.stringify({ values: mem, parts: parts.map((p) => ({ userId: p.userId, guestName: p.guestName })) }));
+      } catch {
+        /* private mode */
+      }
     }
     for (const f of files.filter((x) => !x.error)) {
       try {
@@ -555,7 +574,17 @@ export function LogForm(props: Props) {
   const pbGap = pb && score !== null ? gap(score, pb.score, tpl.direction) : null;
   const isTower = tpl.display?.home === "tower";
 
-  const logTitle = scoreF.type === "time" ? t("log.title") : lang === "es" ? `Apuntar: ${mode.nameEs ?? mode.name}` : `Log: ${mode.name}`;
+  const logTitle = editing
+    ? t("log.editTitle")
+    : scoreF.type === "time"
+      ? t("log.title")
+      : lang === "es"
+        ? `Apuntar: ${mode.nameEs ?? mode.name}`
+        : `Log: ${mode.name}`;
+  const keptProofs = editing ? editing.proofs.filter((p) => !dropProofs.includes(p.id)) : [];
+  const hasClip = keptProofs.some((p) => p.kind === "video") || files.some((f) => f.kind === "video" && !f.error);
+  const hasShot = keptProofs.length > 0 || files.some((f) => !f.error);
+  const gameName = props.games.find((g) => g.slug === props.gameSlug)?.name ?? props.gameShort;
 
   return (
     <section aria-labelledby="h-log">
@@ -574,27 +603,35 @@ export function LogForm(props: Props) {
             </div>
           )}
 
-          <div className="field">
-            <label htmlFor="game">{t("log.game")}</label>
-            <select id="game" className="input" value={props.gameSlug} onChange={(e) => router.push(`/log?game=${e.target.value}`)}>
-              {props.games.map((g) => (
-                <option key={g.slug} value={g.slug}>
-                  {g.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          {editing ? (
+            <p className="kicker" style={{ marginTop: -8, marginBottom: 20 }}>
+              {gameName} · {lang === "es" && mode.nameEs ? mode.nameEs : mode.name}
+            </p>
+          ) : (
+            <>
+              <div className="field">
+                <label htmlFor="game">{t("log.game")}</label>
+                <select id="game" className="input" value={props.gameSlug} onChange={(e) => router.push(`/log?game=${e.target.value}`)}>
+                  {props.games.map((g) => (
+                    <option key={g.slug} value={g.slug}>
+                      {g.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-          <div className="field">
-            <span className="lbl" id="l-what">{t("log.what")}</span>
-            <div className={`seg ${modes.length > 4 ? "wrap" : ""}`} role="group" aria-labelledby="l-what">
-              {modes.map((m) => (
-                <button type="button" key={m.id} aria-pressed={m.id === mode.id} onClick={() => setModeId(m.id)}>
-                  {lang === "es" && m.nameEs ? m.nameEs : m.name}
-                </button>
-              ))}
-            </div>
-          </div>
+              <div className="field">
+                <span className="lbl" id="l-what">{t("log.what")}</span>
+                <div className={`seg ${modes.length > 4 ? "wrap" : ""}`} role="group" aria-labelledby="l-what">
+                  {modes.map((m) => (
+                    <button type="button" key={m.id} aria-pressed={m.id === mode.id} onClick={() => setModeId(m.id)}>
+                      {lang === "es" && m.nameEs ? m.nameEs : m.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
 
           {tpl.fields.map(renderField)}
 
@@ -602,7 +639,7 @@ export function LogForm(props: Props) {
             <div className="field">
               {!showCombo ? (
                 <>
-                  <span className="lbl">{t("log.combo")}</span>
+                  <span className="lbl">{editing ? t("log.comboEdit") : t("log.combo")}</span>
                   <div className="comboin">
                     <span>{comboFields.map((f) => itemText(itemById(f.catalog, raw[f.key]), lang)).join(" · ")}</span>
                     <button type="button" onClick={() => setComboOpen(true)}>
@@ -628,14 +665,44 @@ export function LogForm(props: Props) {
 
           <div className="field">
             <span className="lbl">{t("log.proof")}</span>
+            {editing && editing.proofs.length > 0 && (
+              <ul className="files kept" aria-label={t("log.proofOnFile")}>
+                {editing.proofs.map((p) => {
+                  const gone = dropProofs.includes(p.id);
+                  return (
+                    <li key={p.id} className={gone ? "gone" : ""}>
+                      <b>{p.kind === "video" ? t("proof.clip").toUpperCase() : t("proof.shot").toUpperCase()}</b>
+                      <span title={p.name}>
+                        {gone
+                          ? t("log.proofWillGo", { name: p.name })
+                          : `${p.name} · ${fileSize(p.size)}${p.durationMs ? ` · ${Math.round(p.durationMs / 1000)} s` : ""}`}
+                      </span>
+                      <button
+                        type="button"
+                        className="linkish"
+                        aria-pressed={gone}
+                        onClick={() => setDropProofs((d) => (gone ? d.filter((x) => x !== p.id) : [...d, p.id]))}
+                      >
+                        {gone ? t("log.keep") : t("log.remove")}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
             <ProofPicker lang={lang} files={files} onChange={setFiles} />
           </div>
 
           {status && <p className="hint" role="status">{status}</p>}
           <button type="submit" className="save" disabled={saving}>
-            <span>{saving ? t("log.saving") : t("log.save")}</span>
+            <span>{saving ? t("log.saving") : editing ? t("log.saveChanges") : t("log.save")}</span>
             <span className="t">{saveText}</span>
           </button>
+          {editing && (
+            <p className="hint" style={{ marginTop: 12 }}>
+              <Link href={`/r/${editing.recordId}`}>{t("log.cancelEdit")}</Link>
+            </p>
+          )}
         </form>
 
         <div className="preview" aria-live="polite">
@@ -661,8 +728,8 @@ export function LogForm(props: Props) {
                 <span className="time t">{saveText}</span>
                 <span className={`num dpb t ${pbGap !== null ? (pbGap < 0 ? "pb" : "slow") : "dim"}`}>{pbGap !== null ? fmtGap(pbGap) : "–"}</span>
                 <span className={`num dwr t ${wrGap === null ? "dim" : wrGap < 0 ? "wr" : ""}`}>{wrGap !== null ? fmtGap(wrGap) : "–"}</span>
-                <span className="date">{t("log.today")}</span>
-                <span className="prf">{files.some((f) => f.kind === "video" && !f.error) ? t("proof.clip") : files.some((f) => !f.error) ? t("proof.shot") : "–"}</span>
+                <span className="date">{editing ? fmtDate(new Date(playedAt), lang, "day") : t("log.today")}</span>
+                <span className="prf">{hasClip ? t("proof.clip") : hasShot ? t("proof.shot") : "–"}</span>
               </div>
             </div>
           ) : (

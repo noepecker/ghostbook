@@ -140,6 +140,9 @@ export const records = pgTable(
     notes: text("notes"),
     createdBy: integer("created_by").references(() => users.id, { onDelete: "set null" }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    /** last edit; null while the record is as it was logged */
+    updatedAt: timestamp("updated_at", { withTimezone: true }),
+    updatedBy: integer("updated_by").references(() => users.id, { onDelete: "set null" }),
   },
   (t) => [index("records_mode_board_idx").on(t.modeId, t.boardKey), index("records_played_idx").on(t.playedAt)],
 );
