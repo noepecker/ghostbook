@@ -20,7 +20,10 @@ Vercel Blob (private store) for proof · plain CSS, Archivo via `next/font`.
   map + mode + player count). The template drives the log form, validation and the pages.
 - A **PB** is the best score per board key per player. A record with several people counts for each
   account and for the squad as a whole.
-- World records for Mario Kart World come from `mkwrs.com/mkworld/` (150cc only; 200cc stays `–`).
+- World records come from mkwrs.com: `mkworld/` for Mario Kart World (150cc only; 200cc stays `–`)
+  and `mk8dx/` for Mario Kart 8 Deluxe (150cc and 200cc; a class with no WR on the site stays `–`).
+- A record can be edited (values, people, date, notes, proof) by whoever logged it, anyone on it,
+  and admins. PBs and boards are computed from records, so they follow the edit.
 
 Code map: `src/lib/template.ts` (templates, validation, board keys), `src/lib/pb.ts` (PBs, splits
 colours), `src/lib/time.ts` (time parsing/formatting), `src/lib/wr/` (mkwrs scraper + refresh),
@@ -46,7 +49,8 @@ Proof uploads need `BLOB_READ_WRITE_TOKEN` in `.env.local` (`vercel env pull`).
 
 Checks: `npm test` (vitest), `npm run typecheck`, `npm run lint`, `npm run build`.
 Browser QA helpers live in `tools/` (`qa-flow.mjs` logs a TT time with proof, a zombies session and
-an invite; `shots.mjs` takes 390 and 1440 px screenshots into `docs/shots/`).
+an invite; `qa-edit.mjs` edits a TT time into a PB and drops its proof; `shots.mjs` takes 390 and
+1440 px screenshots into `docs/shots/`).
 
 ## Production (Vercel)
 
@@ -72,9 +76,9 @@ Then log in, change the password in Settings and create invite links for the oth
 `vercel.json` schedules the world record refresh daily at 04:00 UTC. Anyone logged in can also press
 **Refresh WRs** on the game page (at most once every 5 minutes).
 
-## Known limits
+## Storage meter
 
-- MK8DX world records are not scraped: `mkwrs.com/mk8dx/` uses a different table (nested per-cc rows,
-  tires and glider columns). MK8DX boards show `–` for WR.
-- Records can be deleted but not edited yet; log again and delete the wrong one.
-- Blob storage is metered from the database (sum of proof sizes), not from the Blob API.
+Settings lists the Blob store itself (every page of `list()`), cached for 10 minutes and dropped
+whenever a proof is added or removed. It shows the real usage against the 1 GB free tier, the file
+count, and how many files in Blob no record points at (counted, never deleted on its own). If Blob
+can't be asked it falls back to the sum of proof sizes in the database and says so.
