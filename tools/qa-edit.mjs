@@ -23,6 +23,13 @@ await p.goto(`${BASE}${board}`);
 const pbBefore = await p.locator("table.hist").first().locator("td.t").first().innerText();
 console.log("board PB before:", pbBefore);
 
+// ---- editing the current PB compares it with the best of the others, never with itself
+await p.locator("table.hist").first().locator('a[href^="/r/"]').first().click();
+await p.waitForURL(/\/r\/\d+$/);
+await p.goto(`${p.url()}/edit`);
+console.log("edit the PB itself:", (await p.locator(".delta").first().innerText()).replace(/\n+/g, " · "), "· preview:", await p.locator(".preview .dpb").innerText());
+await p.screenshot({ path: `${out}/edit-pb-390.png`, fullPage: true });
+
 // ---- log a slow time with a proof
 const tmp = await ctx.newPage();
 await tmp.setContent(`<div style="width:640px;height:360px;background:#1d2233;color:#f3f2ec;font:700 44px sans-serif;display:flex;align-items:center;justify-content:center">Crown City · 2:30.000</div>`);

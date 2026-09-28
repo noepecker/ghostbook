@@ -88,7 +88,7 @@ export default async function SettingsPage() {
             <i className={pct > 80 ? "hi" : ""} style={{ width: `${Math.max(pct, used ? 0.5 : 0)}%` }} />
           </div>
           <p className="hint">
-            {usage.files === 1 ? t("settings.storageFile") : t("settings.storageFiles", { n: usage.files })}
+            {t("settings.storageFiles", { n: usage.files })}
             {" · "}
             {usage.source === "blob"
               ? t("settings.storageChecked", { when: fmtAgo(usage.checkedAt, lang) })
@@ -98,9 +98,7 @@ export default async function SettingsPage() {
           </p>
           {usage.source === "blob" && usage.orphans > 0 && (
             <p className="hint">
-              {usage.orphans === 1
-                ? t("settings.storageOrphan", { size: size(usage.orphanBytes) })
-                : t("settings.storageOrphans", { n: usage.orphans, size: size(usage.orphanBytes) })}
+              {t("settings.storageOrphans", { n: usage.orphans, size: size(usage.orphanBytes) })}
             </p>
           )}
           {usage.source === "blob" && usage.missing > 0 && <p className="hint">{t("settings.storageMissing", { n: usage.missing })}</p>}

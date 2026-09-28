@@ -65,3 +65,18 @@ describe("storage meter", () => {
     await expect(listAllPages(async () => ({ blobs: [0], cursor: "x", hasMore: true }), 3)).rejects.toThrow(/more than 3 pages/);
   });
 });
+
+describe("counters", () => {
+  it("use the singular when n is 1, in both languages", async () => {
+    const { makeT } = await import("@/lib/i18n/dict");
+    const en = makeT("en");
+    const es = makeT("es");
+    expect(en("settings.storageFiles", { n: 1 })).toBe("1 file");
+    expect(en("settings.storageFiles", { n: 2 })).toBe("2 files");
+    expect(en("settings.storageFiles", { n: 0 })).toBe("0 files");
+    expect(es("settings.storageFiles", { n: 1 })).toBe("1 archivo");
+    expect(en("games.wrRefreshed", { n: 1 })).toBe("1 world record updated.");
+    expect(es("board.history", { n: 1, months: "1 mes" })).toBe("Historial del PB · 1 mejora en 1 mes");
+    expect(en("log.more", { n: 1 })).toBe("All 1");
+  });
+});

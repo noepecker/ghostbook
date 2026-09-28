@@ -75,6 +75,7 @@ export const en = {
   "proof.none": "–",
   "proof.title": "Proof",
   "proof.files": "Proof · {n} files",
+  "proof.files.one": "Proof · 1 file",
   "proof.oneFile": "Proof · 1 file",
   "proof.noneYet": "No proof attached.",
   "proof.play": "Play clip",
@@ -84,6 +85,7 @@ export const en = {
   "board.vsWr": "VS WR · {holder}",
   "board.sumOfBest": "SUM OF BEST",
   "board.history": "PB history · {n} improvements in {months}",
+  "board.history.one": "PB history · 1 improvement in {months}",
   "board.historyOne": "PB history · first time on the board",
   "board.months": "{n} months",
   "board.month": "1 month",
@@ -189,10 +191,12 @@ export const en = {
   "games.edit": "Edit",
   "games.exists": "A game with that name already exists.",
   "games.boards": "{n} boards",
+  "games.boards.one": "1 board",
   "games.noRecords": "No records in this category yet.",
   "games.wrSource": "World records from {source}, fetched {when}.",
   "games.wrRefresh": "Refresh WRs",
   "games.wrRefreshed": "{n} world records updated.",
+  "games.wrRefreshed.one": "1 world record updated.",
   "games.wrTooSoon": "Refreshed less than 5 minutes ago. Try again at {time}.",
   "games.wrFailed": "Couldn't reach {source}: {error}",
   "games.wrNotYet": "World records from {source}: not fetched yet.",
@@ -210,6 +214,7 @@ export const en = {
   "editor.addItem": "Add item",
   "editor.itemName": "Item name",
   "editor.items": "{n} items",
+  "editor.items.one": "1 item",
   "editor.modes": "Categories",
   "editor.modeHint": "A category is a kind of record: Time Trial, High round, EE speedrun. Its fields make the log form.",
   "editor.newMode": "New category",
@@ -249,6 +254,7 @@ export const en = {
   "editor.stats": "Per-player stats",
   "editor.statsHint": "Comma separated, like kills, downs, revives.",
   "editor.recomputed": "Saved. {n} records re-keyed.",
+  "editor.recomputed.one": "Saved. 1 record re-keyed.",
   "editor.type.time": "Time",
   "editor.type.integer": "Whole number",
   "editor.type.number": "Number",
@@ -262,6 +268,7 @@ export const en = {
 
   "players.title": "Family",
   "players.records": "{n} records",
+  "players.records.one": "1 record",
 
   "settings.title": "Settings",
   "settings.account": "Account",
@@ -277,11 +284,12 @@ export const en = {
   "settings.storageUse": "{used} of {total} used",
   "settings.storageHint": "Vercel Blob free tier. Clips are the big ones: 60 s from the Switch 2 is about 30 MB.",
   "settings.storageFiles": "{n} files",
-  "settings.storageFile": "1 file",
+  "settings.storageFiles.one": "1 file",
   "settings.storageChecked": "In Blob, checked {when}",
   "settings.storageOrphans": "{n} files ({size}) in Blob aren't attached to any record. Nothing is deleted on its own.",
-  "settings.storageOrphan": "1 file ({size}) in Blob isn't attached to any record. Nothing is deleted on its own.",
+  "settings.storageOrphans.one": "1 file ({size}) in Blob isn't attached to any record. Nothing is deleted on its own.",
   "settings.storageMissing": "{n} proofs point at a file Blob doesn't have.",
+  "settings.storageMissing.one": "1 proof points at a file Blob doesn't have.",
   "settings.storageFromDb": "Counted from the database: Blob didn't answer ({error}).",
   "settings.storageNoToken": "Counted from the database: this server has no Blob token.",
   "settings.password": "Change password",
@@ -389,6 +397,7 @@ export const es: Dict = {
   "proof.none": "–",
   "proof.title": "Prueba",
   "proof.files": "Prueba · {n} archivos",
+  "proof.files.one": "Prueba · 1 archivo",
   "proof.oneFile": "Prueba · 1 archivo",
   "proof.noneYet": "Sin prueba adjunta.",
   "proof.play": "Ver clip",
@@ -398,6 +407,7 @@ export const es: Dict = {
   "board.vsWr": "SOBRE WR · {holder}",
   "board.sumOfBest": "SUMA DE MEJORES",
   "board.history": "Historial del PB · {n} mejoras en {months}",
+  "board.history.one": "Historial del PB · 1 mejora en {months}",
   "board.historyOne": "Historial del PB · primer tiempo en el tablero",
   "board.months": "{n} meses",
   "board.month": "1 mes",
@@ -503,10 +513,12 @@ export const es: Dict = {
   "games.edit": "Editar",
   "games.exists": "Ya hay un juego con ese nombre.",
   "games.boards": "{n} tableros",
+  "games.boards.one": "1 tablero",
   "games.noRecords": "Aún no hay récords en esta categoría.",
   "games.wrSource": "Récords del mundo de {source}, consultados {when}.",
   "games.wrRefresh": "Actualizar WR",
   "games.wrRefreshed": "{n} récords del mundo actualizados.",
+  "games.wrRefreshed.one": "1 récord del mundo actualizado.",
   "games.wrTooSoon": "Se actualizó hace menos de 5 minutos. Prueba a las {time}.",
   "games.wrFailed": "No se pudo consultar {source}: {error}",
   "games.wrNotYet": "Récords del mundo de {source}: aún sin consultar.",
@@ -524,6 +536,7 @@ export const es: Dict = {
   "editor.addItem": "Añadir elemento",
   "editor.itemName": "Nombre del elemento",
   "editor.items": "{n} elementos",
+  "editor.items.one": "1 elemento",
   "editor.modes": "Categorías",
   "editor.modeHint": "Una categoría es un tipo de récord: Contrarreloj, Ronda máxima, Speedrun de misión. Sus campos forman el formulario.",
   "editor.newMode": "Categoría nueva",
@@ -563,6 +576,7 @@ export const es: Dict = {
   "editor.stats": "Datos por jugador",
   "editor.statsHint": "Separados por comas, como kills, downs, revives.",
   "editor.recomputed": "Guardado. {n} récords recalculados.",
+  "editor.recomputed.one": "Guardado. 1 récord recalculado.",
   "editor.type.time": "Tiempo",
   "editor.type.integer": "Número entero",
   "editor.type.number": "Número",
@@ -576,6 +590,7 @@ export const es: Dict = {
 
   "players.title": "Familia",
   "players.records": "{n} récords",
+  "players.records.one": "1 récord",
 
   "settings.title": "Ajustes",
   "settings.account": "Cuenta",
@@ -591,11 +606,12 @@ export const es: Dict = {
   "settings.storageUse": "{used} de {total} usados",
   "settings.storageHint": "Plan gratuito de Vercel Blob. Los clips son lo que pesa: 60 s de la Switch 2 son unos 30 MB.",
   "settings.storageFiles": "{n} archivos",
-  "settings.storageFile": "1 archivo",
+  "settings.storageFiles.one": "1 archivo",
   "settings.storageChecked": "En Blob, comprobado {when}",
   "settings.storageOrphans": "{n} archivos ({size}) en Blob no están en ningún récord. No se borra nada solo.",
-  "settings.storageOrphan": "1 archivo ({size}) en Blob no está en ningún récord. No se borra nada solo.",
+  "settings.storageOrphans.one": "1 archivo ({size}) en Blob no está en ningún récord. No se borra nada solo.",
   "settings.storageMissing": "{n} pruebas apuntan a un archivo que Blob no tiene.",
+  "settings.storageMissing.one": "1 prueba apunta a un archivo que Blob no tiene.",
   "settings.storageFromDb": "Contado desde la base de datos: Blob no respondió ({error}).",
   "settings.storageNoToken": "Contado desde la base de datos: este servidor no tiene token de Blob.",
   "settings.password": "Cambiar contraseña",
@@ -634,7 +650,9 @@ export type T = (key: Key, params?: Record<string, string | number>) => string;
 export function makeT(lang: Lang): T {
   const d = DICTS[lang] ?? en;
   return (key, params) => {
-    let s = d[key] ?? en[key] ?? key;
+    // counters: `key.one` is the singular, picked when n is 1
+    const one = params?.n === 1 ? (`${key}.one` as Key) : null;
+    let s = (one && (d[one] ?? en[one])) || d[key] || en[key] || key;
     if (params) for (const [k, v] of Object.entries(params)) s = s.split(`{${k}}`).join(String(v));
     return s;
   };
