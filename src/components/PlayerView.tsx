@@ -44,6 +44,27 @@ export async function PlayerView({ player, isMe }: { player: User; isMe: boolean
         .map((i) => (lang === "es" && i!.nameEs ? i!.nameEs : i!.name))
     : [];
 
+  if (!latest && sessions.length === 0 && ratings.length === 0) {
+    return (
+      <section aria-labelledby="h-board">
+        <div className="welcome">
+          <h2 id="h-board" style={{ marginBottom: 12 }}>
+            {isMe ? t("home.emptyTitle") : t("home.emptyTitleOther", { name: player.displayName })}
+          </h2>
+          <p>{t("home.emptyText")}</p>
+          <div className="acts">
+            <Link className="btn big" href="/log">
+              {t("nav.log")}
+            </Link>
+            <Link className="btn big ghost" href="/games">
+              {t("home.emptyGames")}
+            </Link>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section aria-labelledby="h-board">
       <div className="board">

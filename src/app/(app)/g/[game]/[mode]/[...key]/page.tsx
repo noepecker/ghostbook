@@ -233,12 +233,42 @@ export default async function BoardPage({ params, searchParams }: { params: Prom
               </div>
             </>
           ) : (
-            <div className="nothing">
-              <p>{t("board.noTime", { name: player.displayName })}</p>
-              <Link className="btn" href={logHref}>
-                {t("board.logHere")}
-              </Link>
-            </div>
+            <>
+              <div className="nothing">
+                <p>{t("board.noTime", { name: player.displayName })}</p>
+                <Link className="btn big" href={logHref}>
+                  {t("board.logHere")}
+                </Link>
+              </div>
+
+              {wr?.splits && wr.splits.length > 0 && (
+                <table className="splits">
+                  <thead>
+                    <tr>
+                      <th>{t("col.split")}</th>
+                      <th>{`${t("col.wr")} · ${wr.holder}`.toUpperCase()}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {wr.splits.map((v, i) => (
+                      <tr key={i}>
+                        <td>{t("board.split", { n: i + 1 })}</td>
+                        <td className="t">{formatSplit(v)}</td>
+                      </tr>
+                    ))}
+                    <tr className="tot">
+                      <td>{t("board.total")}</td>
+                      <td className="t">{wrText}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
+
+              <div className="chartwrap">
+                <h3>{t("board.historyTitle")}</h3>
+                <p className="dim">{t("board.historyEmpty")}</p>
+              </div>
+            </>
           )}
         </div>
 

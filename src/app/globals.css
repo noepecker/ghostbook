@@ -243,6 +243,7 @@ select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csv
 .btn.ghost:hover { border-color: var(--ink); }
 .btn.warn { background: none; color: var(--bad); border-color: var(--bad); }
 .btn[disabled] { opacity: .55; cursor: wait; }
+.btn.big { min-height: 52px; padding: 0 22px; font-size: 15px; }
 .errors { border: 1px solid var(--bad); padding: 10px 12px; margin-bottom: 16px; font-size: 14px; }
 .errors b { display: block; margin-bottom: 4px; color: var(--bad); }
 .errors li { list-style: none; }
@@ -281,6 +282,11 @@ select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csv
 .modeblock { margin-bottom: 40px; }
 .modeblock h3 { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .modeblock h3 a { font-size: 14px; font-weight: 600; color: var(--dim); }
+.modetabs { margin: 0 0 12px; }
+.boards .notime { font-size: 13px; font-weight: 500; font-stretch: 100%; }
+.welcome { padding: 20px 0 28px; border-top: 2px solid var(--ink); max-width: 640px; }
+.welcome p { font-size: 18px; margin-bottom: 16px; }
+.welcome .acts { display: flex; flex-wrap: wrap; gap: 10px; }
 .boards .th, .boards .tr { grid-template-columns: minmax(0, 1fr) 140px 110px 110px 110px; }
 .boards .th span:nth-child(n+2) { text-align: right; }
 .editor { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 48px; align-items: start; }
