@@ -12,6 +12,7 @@ import { splitsFieldKey, splitsOf } from "@/lib/views";
 import { BigTime } from "@/components/Bits";
 import { ProofMedia } from "@/components/ProofMedia";
 import { StepChart } from "@/components/StepChart";
+import { LogBar } from "@/components/LogBar";
 
 type Params = { game: string; mode: string; key: string[] };
 
@@ -383,6 +384,7 @@ export default async function BoardPage({ params, searchParams }: { params: Prom
           </p>
         </div>
       </div>
+      <LogBar fromPage href={logHref} label={t("nav.log")} text={t("logbar.here", { what: [label.title, label.rest].filter(Boolean).join(" · ") })} />
     </section>
   );
 }

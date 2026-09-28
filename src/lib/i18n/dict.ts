@@ -12,6 +12,7 @@ export const en = {
   "nav.language": "Language",
   "logbar.last": "{what}, last used",
   "logbar.none": "Pick a game and a category",
+  "logbar.here": "{what}, this board",
 
   "login.title": "Log in",
   "login.username": "Username",
@@ -309,6 +310,7 @@ export const es: Dict = {
   "nav.language": "Idioma",
   "logbar.last": "{what}, lo último",
   "logbar.none": "Elige juego y categoría",
+  "logbar.here": "{what}, este tablero",
 
   "login.title": "Entrar",
   "login.username": "Usuario",

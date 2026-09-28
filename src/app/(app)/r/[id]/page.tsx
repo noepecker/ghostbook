@@ -22,6 +22,7 @@ import { formatInt, formatSplit } from "@/lib/time";
 import { ProofMedia } from "@/components/ProofMedia";
 import { ProofAdder } from "@/components/ProofAdder";
 import { DeleteRecord } from "@/components/DeleteRecord";
+import { LogBar } from "@/components/LogBar";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -234,6 +235,12 @@ export default async function RecordPage({ params }: { params: Promise<{ id: str
           )}
         </div>
       </div>
+      <LogBar
+        fromPage
+        href={`/log?mode=${mode.id}&key=${encodeURIComponent(rec.boardKey)}`}
+        label={t("nav.log")}
+        text={t("logbar.here", { what: [board.title, board.rest].filter(Boolean).join(" · ") })}
+      />
     </section>
   );
 }
