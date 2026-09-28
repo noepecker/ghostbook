@@ -2,12 +2,22 @@ import { and, eq, sql } from "drizzle-orm";
 import type { DB } from "../db/client";
 import { appState, games, modes, worldRecords } from "../db/schema";
 import { applyMkwrsRows } from "./apply";
-import { MKWRS_WORLD_URL, USER_AGENT, parseMkwrsWorld } from "./mkwrs";
+import { MKWRS_MK8DX_URL, MKWRS_WORLD_URL, USER_AGENT, parseMkwrsMk8dx, parseMkwrsWorld, type MkwrsRow } from "./mkwrs";
 
 export const RATE_LIMIT_MS = 5 * 60_000;
 
-export const SOURCES: Record<string, { url: string; label: string; modeSlug: string }> = {
-  "mkwrs-mkworld": { url: MKWRS_WORLD_URL, label: "mkwrs.com", modeSlug: "time-trial" },
+export interface WrSource {
+  url: string;
+  label: string;
+  modeSlug: string;
+  parse: (html: string) => MkwrsRow[];
+  /** fewer rows than this means the page changed shape: fail rather than half-update */
+  minRows: number;
+}
+
+export const SOURCES: Record<string, WrSource> = {
+  "mkwrs-mkworld": { url: MKWRS_WORLD_URL, label: "mkwrs.com", modeSlug: "time-trial", parse: parseMkwrsWorld, minRows: 10 },
+  "mkwrs-mk8dx": { url: MKWRS_MK8DX_URL, label: "mkwrs.com", modeSlug: "time-trial", parse: parseMkwrsMk8dx, minRows: 48 },
 };
 
 export interface RefreshResult {
@@ -61,8 +71,8 @@ export async function refreshWorldRecords(db: DB, opts: { force?: boolean; gameS
         cache: "no-store",
       });
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      const rows = parseMkwrsWorld(await resp.text());
-      if (rows.length < 10) throw new Error(`only ${rows.length} rows, the page layout may have changed`);
+      const rows = src.parse(await resp.text());
+      if (rows.length < src.minRows) throw new Error(`only ${rows.length} rows, the page layout may have changed`);
       const r = await applyMkwrsRows(db, g.id, mode.id, mode.template, rows, new Date());
       res.updated = r.updated;
       res.added = r.added;

@@ -2,14 +2,14 @@
 // Everything is insert-if-missing, so re-running never duplicates and never
 // overwrites what people changed from the UI. World records are only inserted
 // when there is none yet for that board (the daily refresh keeps them fresh).
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { DB } from "../db/client";
 import { catalogItems, catalogs, games, modes } from "../db/schema";
 import { slugify } from "../slug";
 import type { FieldDef, ModeTemplate } from "../template";
-import { parseMkwrsWorld, MKWRS_WORLD_URL, type MkwrsRow } from "../wr/mkwrs";
+import { parseMkwrsMk8dx, parseMkwrsWorld, MKWRS_WORLD_URL, type MkwrsRow } from "../wr/mkwrs";
 import { applyMkwrsRows } from "../wr/apply";
 
 const ROOT = process.cwd();
@@ -171,21 +171,56 @@ async function seedMkw(db: DB, wrRows: MkwrsRow[]) {
 
 // ---------------------------------------------------------------- Mario Kart 8 Deluxe
 
-async function seedMk8dx(db: DB) {
+/** Names the first seed got wrong, fixed in place so records keep pointing at the same item. */
+const MK8DX_RENAMES: [fromSlug: string, name: string][] = [
+  ["tick-tock-clock-3ds", "Tick-Tock Clock (DS)"],
+  ["sky-high-sundae-new", "Sky-High Sundae"],
+  ["yoshis-island-new", "Yoshi's Island"],
+  ["squeaky-clean-sprint-new", "Squeaky Clean Sprint"],
+];
+
+export function mk8dxTracks(): ItemSeed[] {
   const research = readJson("docs/research/mk8dx.json");
-  const game = await upsertGame(db, { slug: "mk8dx", name: "Mario Kart 8 Deluxe", shortCode: "MK8DX", sort: 40 });
   const tracks: ItemSeed[] = [];
   for (const cup of [...research.base_game_cups, ...research.booster_course_pass_cups]) {
     for (const name of cup.tracks as string[]) tracks.push({ name, meta: { cup: cup.cup } });
   }
+  return tracks;
+}
+
+async function seedMk8dx(db: DB, wrRows: MkwrsRow[]) {
+  const game = await upsertGame(db, { slug: "mk8dx", name: "Mario Kart 8 Deluxe", shortCode: "MK8DX", wrSource: "mkwrs-mk8dx", sort: 40 });
+  if (!game.wrSource) {
+    // databases seeded before MK8DX WRs were scraped
+    await db.update(games).set({ wrSource: "mkwrs-mk8dx" }).where(and(eq(games.id, game.id), isNull(games.wrSource)));
+  }
+  const tracks = mk8dxTracks();
+  const trackCat = await upsertCatalog(db, game.id, "track", "Tracks", "Circuitos", []);
+  for (const [fromSlug, name] of MK8DX_RENAMES) {
+    const [from] = await db.select().from(catalogItems).where(and(eq(catalogItems.catalogId, trackCat.id), eq(catalogItems.slug, fromSlug)));
+    const [to] = await db.select().from(catalogItems).where(and(eq(catalogItems.catalogId, trackCat.id), eq(catalogItems.slug, slugify(name))));
+    if (from && !to) await db.update(catalogItems).set({ name, slug: slugify(name) }).where(eq(catalogItems.id, from.id));
+  }
   await upsertCatalog(db, game.id, "track", "Tracks", "Circuitos", tracks);
+  // cup and order come from the seed (the UI can't change them): keep them in step with the list
+  const existing = await db.select().from(catalogItems).where(eq(catalogItems.catalogId, trackCat.id));
+  for (const [i, tr] of tracks.entries()) {
+    const it = existing.find((x) => x.slug === slugify(tr.name));
+    const sort = (i + 1) * 10;
+    if (it && (it.sort !== sort || it.meta?.cup !== tr.meta?.cup)) {
+      await db
+        .update(catalogItems)
+        .set({ sort, meta: { ...(it.meta ?? {}), cup: tr.meta?.cup } })
+        .where(eq(catalogItems.id, it.id));
+    }
+  }
   await upsertCatalog(db, game.id, "cc", "Engine classes", "Cilindradas", [
     { name: "150cc", meta: { short: "150" } },
     { name: "200cc", meta: { short: "200" } },
   ]);
   await upsertCatalog(db, game.id, "character", "Characters", "Personajes", []);
   await upsertCatalog(db, game.id, "kart", "Combos", "Combos", []);
-  await upsertMode(db, game.id, {
+  const tt = await upsertMode(db, game.id, {
     slug: "time-trial",
     name: "Time Trial",
     nameEs: "Contrarreloj",
@@ -205,6 +240,7 @@ async function seedMk8dx(db: DB) {
       display: { home: "tower", title: "{track}" },
     },
   });
+  await applyMkwrsRows(db, game.id, tt.id, tt.template, wrRows, new Date("2026-09-28T00:00:00Z"), { onlyMissing: true });
 }
 
 // ---------------------------------------------------------------- Call of Duty Zombies
@@ -358,7 +394,8 @@ export async function seed(db: DB): Promise<void> {
   const html = readFileSync(join(ROOT, "src/lib/wr/__fixtures__/mkworld.html"), "utf8");
   const rows = parseMkwrsWorld(html);
   await seedMkw(db, rows);
-  await seedMk8dx(db);
+  const mk8dxHtml = readFileSync(join(ROOT, "src/lib/wr/__fixtures__/mk8dx.html"), "utf8");
+  await seedMk8dx(db, parseMkwrsMk8dx(mk8dxHtml));
   await seedZombies(db);
 }
 
