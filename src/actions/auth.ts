@@ -80,7 +80,8 @@ export async function changePassword(_: FormState, form: FormData): Promise<Form
   const me = await requireUser();
   const current = String(form.get("current") ?? "");
   const next = String(form.get("next") ?? "");
-  if (next.length < 8 || !(await verifyPassword(current, me.passwordHash))) return { error: "settings.passwordWrong" };
+  if (!(await verifyPassword(current, me.passwordHash))) return { error: "settings.currentWrong" };
+  if (next.length < 8) return { error: "settings.newTooShort" };
   await db.update(users).set({ passwordHash: await hashPassword(next) }).where(eq(users.id, me.id));
   return { ok: "settings.passwordChanged" };
 }
