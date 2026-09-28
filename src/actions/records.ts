@@ -1,9 +1,10 @@
 "use server";
 
 import { del, head } from "@vercel/blob";
-import { and, eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { and, eq, inArray } from "drizzle-orm";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
+import { canEditRecord } from "@/lib/access";
 import { requireUser } from "@/lib/auth";
 import { loadWorld } from "@/lib/data";
 import { db } from "@/lib/db";
@@ -11,6 +12,7 @@ import { catalogItems, catalogs, proofs, recordParticipants, records } from "@/l
 import { writeLast } from "@/lib/lastlog";
 import { boardPath } from "@/lib/present";
 import { slugify } from "@/lib/slug";
+import { BLOB_USAGE_TAG } from "@/lib/storage";
 import { boardKeyOf, validateValues, type ValueContext } from "@/lib/template";
 
 export interface NewRecordInput {
@@ -21,13 +23,24 @@ export interface NewRecordInput {
   notes: string;
 }
 
+export interface EditRecordInput extends NewRecordInput {
+  /** proof rows to drop; their Blob files are deleted too */
+  removeProofIds?: number[];
+}
+
 export type CreateResult = { ok: true; id: number; href: string } | { ok: false; errors: string[] };
 
-export async function createRecord(input: NewRecordInput): Promise<CreateResult> {
-  const me = await requireUser();
-  const world = await loadWorld();
-  const mode = world.modeById.get(Number(input.modeId));
-  if (!mode) return { ok: false, errors: ["Unknown category."] };
+type World = Awaited<ReturnType<typeof loadWorld>>;
+interface Part {
+  userId: number | null;
+  guestName: string | null;
+  stats: Record<string, number>;
+}
+
+/** Shared by create and edit: clean participants, validate values against the template. */
+function prepare(input: NewRecordInput, modeId: number, world: World, soloUser: Part[]) {
+  const mode = world.modeById.get(modeId);
+  if (!mode) return { ok: false as const, errors: ["Unknown category."] };
   const game = world.gameById.get(mode.gameId)!;
   const tpl = mode.template;
   const ctx: ValueContext = { catalogs: world.catalogItems.get(game.id) ?? {} };
@@ -35,7 +48,7 @@ export async function createRecord(input: NewRecordInput): Promise<CreateResult>
 
   // participants: accounts that exist and guest names, no duplicates
   const seen = new Set<string>();
-  let parts = (Array.isArray(input.participants) ? input.participants : [])
+  let parts: Part[] = (Array.isArray(input.participants) ? input.participants : [])
     .map((p) => {
       const userId = p.userId && world.userById.has(Number(p.userId)) ? Number(p.userId) : null;
       const guestName = userId ? null : String(p.guestName ?? "").trim().slice(0, 40) || null;
@@ -53,53 +66,122 @@ export async function createRecord(input: NewRecordInput): Promise<CreateResult>
       seen.add(k);
       return true;
     });
-  if (!playersF) parts = [{ userId: me.id, guestName: null, stats: {} }];
+  if (!playersF) parts = soloUser;
 
   const check = validateValues(tpl, input.values ?? {}, ctx, parts.length);
   const playedAt = new Date(input.playedAt);
   const errors = [...check.errors];
   if (Number.isNaN(playedAt.getTime())) errors.push("When: not a date.");
   else if (playedAt.getTime() > Date.now() + 36 * 3600_000) errors.push("When: that's in the future.");
-  if (errors.length) return { ok: false, errors };
+  if (errors.length) return { ok: false as const, errors };
+  return {
+    ok: true as const,
+    mode,
+    game,
+    tpl,
+    parts,
+    hasPlayers: !!playersF,
+    values: check.values,
+    score: check.score,
+    boardKey: boardKeyOf(tpl, check.values, parts.length),
+    playedAt,
+    notes: String(input.notes ?? "").trim().slice(0, 2000) || null,
+  };
+}
 
-  const boardKey = boardKeyOf(tpl, check.values, parts.length);
+async function writeParticipants(recordId: number, parts: Part[]) {
+  if (!parts.length) return;
+  await db.insert(recordParticipants).values(
+    parts.map((p, i) => ({ recordId, userId: p.userId, guestName: p.guestName, position: i, stats: Object.keys(p.stats).length ? p.stats : null })),
+  );
+}
+
+export async function createRecord(input: NewRecordInput): Promise<CreateResult> {
+  const me = await requireUser();
+  const world = await loadWorld();
+  const p = prepare(input, Number(input.modeId), world, [{ userId: me.id, guestName: null, stats: {} }]);
+  if (!p.ok) return p;
   const [rec] = await db
     .insert(records)
     .values({
-      modeId: mode.id,
-      values: check.values,
-      boardKey,
-      score: check.score,
-      playedAt,
-      notes: String(input.notes ?? "").trim().slice(0, 2000) || null,
+      modeId: p.mode.id,
+      values: p.values,
+      boardKey: p.boardKey,
+      score: p.score,
+      playedAt: p.playedAt,
+      notes: p.notes,
       createdBy: me.id,
     })
     .returning();
-  if (parts.length) {
-    await db.insert(recordParticipants).values(
-      parts.map((p, i) => ({ recordId: rec.id, userId: p.userId, guestName: p.guestName, position: i, stats: Object.keys(p.stats).length ? p.stats : null })),
-    );
-  }
-  await writeLast(mode.id, boardKey);
+  await writeParticipants(rec.id, p.parts);
+  await writeLast(p.mode.id, p.boardKey);
   revalidatePath("/", "layout");
-  const href = tpl.display?.home === "tower" ? boardPath(game, mode, boardKey, world) : `/r/${rec.id}`;
+  const href = p.tpl.display?.home === "tower" ? boardPath(p.game, p.mode, p.boardKey, world) : `/r/${rec.id}`;
   return { ok: true, id: rec.id, href };
 }
 
-async function canTouch(recordId: number, userId: number): Promise<boolean> {
-  const [rec] = await db.select().from(records).where(eq(records.id, recordId));
-  if (!rec) return false;
-  if (rec.createdBy === userId) return true;
-  const p = await db
-    .select()
-    .from(recordParticipants)
-    .where(and(eq(recordParticipants.recordId, recordId), eq(recordParticipants.userId, userId)));
-  return p.length > 0;
+/**
+ * Edit a record in place: values, participants, when, notes, and which proofs stay.
+ * The category stays the same. PBs and boards are computed from records, so they follow.
+ */
+export async function updateRecord(recordId: number, input: EditRecordInput): Promise<CreateResult> {
+  const me = await requireUser();
+  const id = Number(recordId);
+  const [rec] = await db.select().from(records).where(eq(records.id, id));
+  if (!rec || !(await canEditRecord(id, me))) return { ok: false, errors: ["Not yours to edit."] };
+  const world = await loadWorld();
+  // without a players field the record keeps its owner, whoever edits it
+  const current = await db.select().from(recordParticipants).where(eq(recordParticipants.recordId, id));
+  const owners = current
+    .sort((a, b) => a.position - b.position)
+    .map((x) => ({ userId: x.userId, guestName: x.guestName, stats: (x.stats ?? {}) as Record<string, number> }));
+  const p = prepare(input, rec.modeId, world, owners);
+  if (!p.ok) return p;
+
+  // proofs first: if Blob refuses, nothing has changed yet
+  const drop = [...new Set((input.removeProofIds ?? []).map(Number).filter(Number.isInteger))];
+  if (drop.length) {
+    const files = await db
+      .select()
+      .from(proofs)
+      .where(and(eq(proofs.recordId, id), inArray(proofs.id, drop)));
+    if (files.length) {
+      if (process.env.BLOB_READ_WRITE_TOKEN) {
+        try {
+          await del(files.map((f) => f.url));
+        } catch (e) {
+          console.error("blob delete failed", e);
+          return { ok: false, errors: [`Proof: the file store didn't delete it (${(e as Error).message}). Nothing was changed.`] };
+        }
+      }
+      await db.delete(proofs).where(inArray(proofs.id, files.map((f) => f.id)));
+      revalidateTag(BLOB_USAGE_TAG);
+    }
+  }
+
+  await db
+    .update(records)
+    .set({
+      values: p.values,
+      boardKey: p.boardKey,
+      score: p.score,
+      playedAt: p.playedAt,
+      notes: p.notes,
+      updatedAt: new Date(),
+      updatedBy: me.id,
+    })
+    .where(eq(records.id, id));
+  if (p.hasPlayers) {
+    await db.delete(recordParticipants).where(eq(recordParticipants.recordId, id));
+    await writeParticipants(id, p.parts);
+  }
+  revalidatePath("/", "layout");
+  return { ok: true, id, href: `/r/${id}` };
 }
 
 export async function deleteRecord(recordId: number): Promise<void> {
   const me = await requireUser();
-  if (!(await canTouch(recordId, me.id))) throw new Error("Not yours to delete.");
+  if (!(await canEditRecord(Number(recordId), me))) throw new Error("Not yours to delete.");
   const files = await db.select().from(proofs).where(eq(proofs.recordId, recordId));
   if (files.length && process.env.BLOB_READ_WRITE_TOKEN) {
     try {
@@ -109,6 +191,7 @@ export async function deleteRecord(recordId: number): Promise<void> {
     }
   }
   await db.delete(records).where(eq(records.id, recordId));
+  if (files.length) revalidateTag(BLOB_USAGE_TAG);
   revalidatePath("/", "layout");
   redirect("/");
 }
@@ -124,7 +207,7 @@ export interface AttachInput {
 export async function attachProof(input: AttachInput): Promise<{ ok: boolean; error?: string }> {
   const me = await requireUser();
   const recordId = Number(input.recordId);
-  if (!(await canTouch(recordId, me.id))) return { ok: false, error: "Not your record." };
+  if (!(await canEditRecord(recordId, me))) return { ok: false, error: "Not your record." };
   if (!String(input.pathname).startsWith(`proofs/${recordId}/`)) return { ok: false, error: "Wrong path." };
   const meta = await head(input.url);
   if (meta.pathname !== input.pathname) return { ok: false, error: "Wrong file." };
@@ -147,6 +230,7 @@ export async function attachProof(input: AttachInput): Promise<{ ok: boolean; er
     durationMs: kind === "video" && Number.isFinite(duration) && duration > 0 ? Math.round(duration) : null,
     createdBy: me.id,
   });
+  revalidateTag(BLOB_USAGE_TAG);
   revalidatePath(`/r/${recordId}`);
   revalidatePath("/", "layout");
   return { ok: true };
@@ -175,10 +259,3 @@ export async function addCatalogItem(catalogId: number, rawName: string): Promis
   revalidatePath("/", "layout");
   return { ok: true, item: { id: item.id, slug: item.slug, name: item.name, nameEs: item.nameEs, meta: item.meta ?? null } };
 }
-
-export async function proofUsage(): Promise<{ bytes: number; files: number }> {
-  await requireUser();
-  const rows = await db.select({ size: proofs.size }).from(proofs);
-  return { bytes: rows.reduce((a, r) => a + Number(r.size), 0), files: rows.length };
-}
-

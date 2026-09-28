@@ -33,6 +33,7 @@
   "track_count_total": 96,
   "cup_count_total": 24,
   "cc_classes": ["50cc", "100cc", "150cc", "Mirror", "200cc"],
+  "corrections_2026_09_28": "Checked against mkwrs.com/mk8dx: Lightning Cup opens with DS Tick-Tock Clock and ends with N64 Rainbow Road (Wii Rainbow Road is the last Spiny Cup track); the Egg, Triforce, Crossing and Bell cups (16 tracks, part of Deluxe) were missing; the three new BCP tracks lose the \"(new)\" tag.",
   "base_game_cups": [
     {"cup": "Mushroom Cup", "type": "Nitro", "tracks": ["Mario Kart Stadium", "Water Park", "Sweet Sweet Canyon", "Thwomp Ruins"]},
     {"cup": "Flower Cup", "type": "Nitro", "tracks": ["Mario Circuit", "Toad Harbor", "Twisted Mansion", "Shy Guy Falls"]},
@@ -41,18 +42,22 @@
     {"cup": "Shell Cup", "type": "Retro", "tracks": ["Moo Moo Meadows (Wii)", "Mario Circuit (GBA)", "Cheep Cheep Beach (DS)", "Toad's Turnpike (N64)"]},
     {"cup": "Banana Cup", "type": "Retro", "tracks": ["Dry Dry Desert (GCN)", "Donut Plains 3 (SNES)", "Royal Raceway (N64)", "DK Jungle (3DS)"]},
     {"cup": "Leaf Cup", "type": "Retro", "tracks": ["Wario Stadium (DS)", "Sherbet Land (GCN)", "Music Park (3DS)", "Yoshi Valley (N64)"]},
-    {"cup": "Lightning Cup", "type": "Retro", "tracks": ["Tick-Tock Clock (3DS)", "Piranha Plant Slide (3DS)", "Grumble Volcano (Wii)", "Rainbow Road (Wii)"]}
+    {"cup": "Lightning Cup", "type": "Retro", "tracks": ["Tick-Tock Clock (DS)", "Piranha Plant Slide (3DS)", "Grumble Volcano (Wii)", "Rainbow Road (N64)"]},
+    {"cup": "Egg Cup", "type": "DLC", "tracks": ["Yoshi Circuit (GCN)", "Excitebike Arena", "Dragon Driftway", "Mute City"]},
+    {"cup": "Triforce Cup", "type": "DLC", "tracks": ["Wario's Gold Mine (Wii)", "Rainbow Road (SNES)", "Ice Ice Outpost", "Hyrule Circuit"]},
+    {"cup": "Crossing Cup", "type": "DLC", "tracks": ["Baby Park (GCN)", "Cheese Land (GBA)", "Wild Woods", "Animal Crossing"]},
+    {"cup": "Bell Cup", "type": "DLC", "tracks": ["Neo Bowser City (3DS)", "Ribbon Road (GBA)", "Super Bell Subway", "Big Blue"]}
   ],
   "booster_course_pass_cups": [
     {"wave": 1, "cup": "Golden Dash Cup", "release": "2022-03", "tracks": ["Paris Promenade (Tour)", "Toad Circuit (3DS)", "Choco Mountain (N64)", "Coconut Mall (Wii)"]},
     {"wave": 1, "cup": "Lucky Cat Cup", "release": "2022-03", "tracks": ["Tokyo Blur (Tour)", "Shroom Ridge (DS)", "Sky Garden (GBA)", "Ninja Hideaway (Tour)"]},
     {"wave": 2, "cup": "Turnip Cup", "release": "2022-08", "tracks": ["New York Minute (Tour)", "Mario Circuit 3 (SNES)", "Kalimari Desert (N64)", "Waluigi Pinball (DS)"]},
-    {"wave": 2, "cup": "Propeller Cup", "release": "2022-08", "tracks": ["Sydney Sprint (Tour)", "Snow Land (GBA)", "Mushroom Gorge (Wii)", "Sky-High Sundae (new)"]},
+    {"wave": 2, "cup": "Propeller Cup", "release": "2022-08", "tracks": ["Sydney Sprint (Tour)", "Snow Land (GBA)", "Mushroom Gorge (Wii)", "Sky-High Sundae"]},
     {"wave": 3, "cup": "Rock Cup", "release": "2022-12", "tracks": ["London Loop (Tour)", "Boo Lake (GBA)", "Rock Rock Mountain (3DS)", "Maple Treeway (Wii)"]},
     {"wave": 3, "cup": "Moon Cup", "release": "2022-12", "tracks": ["Berlin Byways (Tour)", "Peach Gardens (DS)", "Merry Mountain (Tour)", "Rainbow Road (3DS)"]},
-    {"wave": 4, "cup": "Fruit Cup", "release": "2023-03", "tracks": ["Amsterdam Drift (Tour)", "Riverside Park (GBA)", "DK Summit (Wii)", "Yoshi's Island (new)"]},
+    {"wave": 4, "cup": "Fruit Cup", "release": "2023-03", "tracks": ["Amsterdam Drift (Tour)", "Riverside Park (GBA)", "DK Summit (Wii)", "Yoshi's Island"]},
     {"wave": 4, "cup": "Boomerang Cup", "release": "2023-03", "tracks": ["Bangkok Rush (Tour)", "Mario Circuit (DS)", "Waluigi Stadium (GCN)", "Singapore Speedway (Tour)"]},
-    {"wave": 5, "cup": "Feather Cup", "release": "2023-07", "tracks": ["Athens Dash (Tour)", "Daisy Cruiser (GCN)", "Moonview Highway (Wii)", "Squeaky Clean Sprint (new)"]},
+    {"wave": 5, "cup": "Feather Cup", "release": "2023-07", "tracks": ["Athens Dash (Tour)", "Daisy Cruiser (GCN)", "Moonview Highway (Wii)", "Squeaky Clean Sprint"]},
     {"wave": 5, "cup": "Cherry Cup", "release": "2023-07", "tracks": ["Los Angeles Laps (Tour)", "Sunset Wilds (GBA)", "Koopa Cape (Wii)", "Vancouver Velocity (Tour)"]},
     {"wave": 6, "cup": "Acorn Cup", "release": "2023-11", "tracks": ["Rome Avanti (Tour)", "DK Mountain (GCN)", "Daisy Circuit (Wii)", "Piranha Plant Cove (Tour)"]},
     {"wave": 6, "cup": "Spiny Cup", "release": "2023-11", "tracks": ["Madrid Drive (Tour)", "Rosalina's Ice World (3DS)", "Bowser Castle 3 (SNES)", "Rainbow Road (Wii)"]}

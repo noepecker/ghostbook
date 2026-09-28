@@ -33,6 +33,8 @@ export interface RecordFull {
   notes: string | null;
   createdBy: number | null;
   createdAt: Date;
+  updatedAt: Date | null;
+  updatedBy: number | null;
   participants: ParticipantRow[];
   proofs: Proof[];
 }

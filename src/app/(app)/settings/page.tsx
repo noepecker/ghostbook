@@ -5,17 +5,16 @@ import { createInvite, logout } from "@/actions/auth";
 import { requireUser } from "@/lib/auth";
 import { loadWorld } from "@/lib/data";
 import { db } from "@/lib/db";
-import { invites, proofs } from "@/lib/db/schema";
+import { invites } from "@/lib/db/schema";
 import { fmtAgo, fmtDate } from "@/lib/i18n/dict";
 import { getT } from "@/lib/i18n/server";
+import { BLOB_FREE_TIER, storageUsage } from "@/lib/storage";
 import { lastRefresh, SOURCES } from "@/lib/wr/refresh";
 import { LangToggle } from "@/components/LangToggle";
 import { CopyLink, PasswordForm } from "@/components/SettingsForms";
 import { RefreshWrButton } from "@/components/GameForms";
 
 export const metadata = { title: "Settings" };
-
-const FREE_TIER = 1024 ** 3; // Vercel Blob Hobby: 1 GB
 
 function size(n: number) {
   if (n >= 1024 ** 3) return `${(n / 1024 ** 3).toFixed(2)} GB`;
@@ -30,9 +29,9 @@ export default async function SettingsPage() {
   const h = await headers();
   const origin = `${h.get("x-forwarded-proto") ?? "http"}://${h.get("x-forwarded-host") ?? h.get("host")}`;
   const inv = await db.select().from(invites).orderBy(desc(invites.createdAt)).limit(12);
-  const files = await db.select({ size: proofs.size }).from(proofs);
-  const used = files.reduce((a, f) => a + Number(f.size), 0);
-  const pct = Math.min(100, (used / FREE_TIER) * 100);
+  const usage = await storageUsage();
+  const used = usage.bytes;
+  const pct = Math.min(100, (used / BLOB_FREE_TIER) * 100);
   const wrGames = world.games.filter((g) => g.wrSource && SOURCES[g.wrSource]);
   const wrTimes = await Promise.all(wrGames.map(async (g) => ({ g, at: await lastRefresh(db, g.wrSource!) })));
   const now = new Date();
@@ -89,8 +88,21 @@ export default async function SettingsPage() {
             <i className={pct > 80 ? "hi" : ""} style={{ width: `${Math.max(pct, used ? 0.5 : 0)}%` }} />
           </div>
           <p className="hint">
-            {files.length === 1 ? t("settings.storageFile") : t("settings.storageFiles", { n: files.length })} · {t("settings.storageHint")}
+            {t("settings.storageFiles", { n: usage.files })}
+            {" · "}
+            {usage.source === "blob"
+              ? t("settings.storageChecked", { when: fmtAgo(usage.checkedAt, lang) })
+              : usage.reason === "no-token"
+                ? t("settings.storageNoToken")
+                : t("settings.storageFromDb", { error: usage.error ?? "?" })}
           </p>
+          {usage.source === "blob" && usage.orphans > 0 && (
+            <p className="hint">
+              {t("settings.storageOrphans", { n: usage.orphans, size: size(usage.orphanBytes) })}
+            </p>
+          )}
+          {usage.source === "blob" && usage.missing > 0 && <p className="hint">{t("settings.storageMissing", { n: usage.missing })}</p>}
+          <p className="hint">{t("settings.storageHint")}</p>
         </div>
 
         <div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { mayEdit } from "@/lib/access";
 import { requireUser } from "@/lib/auth";
 import { loadWorld, recordById, recordsForModes } from "@/lib/data";
 import { fmtDate } from "@/lib/i18n/dict";
@@ -101,7 +102,8 @@ export default async function RecordPage({ params }: { params: Promise<{ id: str
   if (playersF) facts.push({ label: fieldLabel(playersF, lang), text: playersLabel(rec.participants.length, lang) });
 
   const creator = rec.createdBy ? world.userById.get(rec.createdBy) : undefined;
-  const canEdit = rec.createdBy === me.id || rec.participants.some((p) => p.userId === me.id);
+  const canEdit = mayEdit(me, rec);
+  const editor = rec.updatedBy ? world.userById.get(rec.updatedBy) : undefined;
   const scoreText = formatScore(tpl, rec.score);
   const isTime = scoreF.type === "time";
 
@@ -194,6 +196,11 @@ export default async function RecordPage({ params }: { params: Promise<{ id: str
             </p>
           )}
           {!rec.notes && creator && <p className="hint" style={{ marginTop: 20 }}>{t("record.loggedBy", { name: creator.displayName })}</p>}
+          {rec.updatedAt && (
+            <p className="hint" style={{ marginTop: rec.notes || creator ? 6 : 20 }}>
+              {t("record.editedBy", { name: editor?.displayName ?? "?", date: fmtDate(rec.updatedAt, lang, "weekdayTime") })}
+            </p>
+          )}
         </div>
 
         <div className="aside">
@@ -230,6 +237,9 @@ export default async function RecordPage({ params }: { params: Promise<{ id: str
 
           {canEdit && (
             <div className="danger">
+              <Link className="btn ghost" href={`/r/${rec.id}/edit`}>
+                {t("record.edit")}
+              </Link>
               <DeleteRecord recordId={rec.id} lang={lang} />
             </div>
           )}

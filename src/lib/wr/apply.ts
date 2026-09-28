@@ -5,7 +5,11 @@ import { slugify } from "../slug";
 import { boardKeyOf, type ModeTemplate } from "../template";
 import type { MkwrsRow } from "./mkwrs";
 
-/** Shared by the seed and the daily refresh: map mkwrs rows onto the Time Trial boards. */
+/**
+ * Shared by the seed and the daily refresh: map mkwrs rows onto the Time Trial boards.
+ * The board key is track + cc (+ route when the template has one). Boards with no row keep
+ * whatever they had, so a class without a WR on the site simply stays empty.
+ */
 export async function applyMkwrsRows(
   db: DB,
   gameId: number,
@@ -19,14 +23,13 @@ export async function applyMkwrsRows(
   const catId = (key: string) => cats.find((c) => c.key === key)?.id;
   const trackCat = catId("track");
   const ccCat = catId("cc");
-  const routeCat = catId("route");
-  if (!trackCat || !ccCat || !routeCat) throw new Error("Mario Kart World catalogs are missing; run the seed.");
+  const usesRoute = template.boardKey.includes("route");
+  const routeCat = usesRoute ? catId("route") : undefined;
+  if (!trackCat || !ccCat || (usesRoute && !routeCat)) throw new Error("The track, engine class or route catalog is missing; run the seed.");
   const items = await db.select().from(catalogItems);
   const find = (cat: number, name: string) =>
     items.find((i) => i.catalogId === cat && (i.name.toLowerCase() === name.toLowerCase() || i.slug === slugify(name)));
   const added: string[] = [];
-  const cc150 = find(ccCat, "150cc");
-  if (!cc150) throw new Error("150cc is missing from the engine classes.");
   let updated = 0;
   for (const row of rows) {
     let track = find(trackCat, row.track);
@@ -41,14 +44,16 @@ export async function applyMkwrsRows(
       track = ins;
       items.push(ins);
       added.push(row.track);
-    } else if (row.route === "Non-shortcut" && row.splitsMs.length && !track.meta?.splits) {
+    } else if (row.route !== "Glitch" && row.splitsMs.length && !track.meta?.splits) {
       await db
         .update(catalogItems)
         .set({ meta: { ...(track.meta ?? {}), splits: row.splitsMs.length } })
         .where(eq(catalogItems.id, track.id));
     }
-    const route = find(routeCat, row.route);
-    if (!route) continue;
+    const cc = find(ccCat, row.cc);
+    if (!cc) continue;
+    const route = usesRoute && routeCat && row.route ? find(routeCat, row.route) : undefined;
+    if (usesRoute && !route) continue;
     for (const [key, name] of [["character", row.character], ["kart", row.kart]] as const) {
       const cid = catId(key);
       if (cid && name && !find(cid, name)) {
@@ -56,7 +61,7 @@ export async function applyMkwrsRows(
         if (ins) items.push(ins);
       }
     }
-    const boardKey = boardKeyOf(template, { track: track.id, cc: cc150.id, route: route.id }, 1);
+    const boardKey = boardKeyOf(template, { track: track.id, cc: cc.id, ...(route ? { route: route.id } : {}) }, 1);
     const values = {
       gameId,
       modeId,
@@ -68,7 +73,7 @@ export async function applyMkwrsRows(
       character: row.character,
       kart: row.kart,
       splits: row.splitsMs.length ? row.splitsMs : null,
-      sourceUrl: `https://mkwrs.com/mkworld/display.php?track=${encodeURIComponent(row.track + (row.route === "Glitch" ? " (Glitch)" : "")).replace(/%20/g, "+")}`,
+      sourceUrl: row.sourceUrl,
       videoUrl: row.videoUrl,
       fetchedAt,
     };

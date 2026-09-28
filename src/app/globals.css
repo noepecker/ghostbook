@@ -181,7 +181,7 @@ table { border-collapse: collapse; width: 100%; }
 .thumbs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .thumbs .proof + .proof { margin-top: 0; }
 .thumbs.one { grid-template-columns: 1fr; }
-.danger { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); }
+.danger { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: 10px; }
 
 /* ---------- forms ---------- */
 .logwrap { display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 56px; align-items: start; }
@@ -232,6 +232,9 @@ select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csv
 .files li { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--rule); font-size: 14px; list-style: none; }
 .files li b { font-size: 11px; font-weight: 800; font-stretch: var(--wide); }
 .files li span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.files.kept { margin: 0 0 10px; }
+.files li.gone b, .files li.gone span { color: var(--bad); }
+.files li.gone span { text-decoration: line-through; text-decoration-thickness: 1px; }
 .save { display: flex; justify-content: space-between; align-items: center; width: 100%; min-height: 56px; border: 0; background: var(--ink); color: var(--bg); font-weight: 800; font-stretch: var(--wide); font-size: 15px; padding: 0 16px; cursor: pointer; margin-top: 6px; }
 .save .t { font-stretch: 88%; font-size: 22px; }
 .save[disabled] { opacity: .6; cursor: wait; }
